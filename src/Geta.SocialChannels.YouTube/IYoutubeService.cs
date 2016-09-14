@@ -4,6 +4,8 @@ namespace Geta.SocialChannels.YouTube
 {
     public interface IYoutubeService
     {
-        IList<YoutubeDetailModel> GetYoutubeFeed(string youtubeKey, string channelId);
+        void Config(bool useCache, int cacheDurationInMinutes);
+
+        GetYoutubeFeedResponse GetYoutubeFeed(GetYoutubeFeedRequest getYoutubeFeedRequest);
     }
 }

@@ -15,43 +15,44 @@ namespace Geta.SocialChannels.YouTube
 
         private const string VideoLink = @"https://www.youtube.com/watch?v={0}";
 
-        private readonly bool _useCache;
-        private readonly int _cacheDuration;
+        private readonly string _youtubeKey;
 
-        private readonly int _numberFeedItems;
+        private bool _useCache = true;
+        private int _cacheDurationInMinutes = 10;
 
         private readonly ICache _cache;
 
-        public YoutubeService(ICache cache)
+        public YoutubeService(ICache cache, string youtubeKey)
         {
             this._cache = cache;
-            //var startPage = ContentReference.StartPage.Get<StartPage>();
-            //_numberFeedItems = startPage.SocialFeedSettings.NumberSocialFeedItems > 0
-            //                    ? startPage.SocialFeedSettings.NumberSocialFeedItems
-            //                    : Constants.DefaultNumberSocialFeedItems;
-            //_cacheDuration = startPage.SocialFeedSettings.SocialFeedCacheDuration > 0
-            //                    ? startPage.SocialFeedSettings.SocialFeedCacheDuration
-            //                    : Constants.DefaultSocialFeedCacheDurationForMinutes;
-            //_useCache = startPage.SocialFeedSettings.EnableSocialFeedCache;
+            this._youtubeKey = youtubeKey;
         }
 
-        public IList<YoutubeDetailModel> GetYoutubeFeed(string youtubeKey, string channelId)
+        public void Config(bool useCache, int cacheDurationInMinutes)
         {
-            if (string.IsNullOrEmpty(youtubeKey) || string.IsNullOrEmpty(channelId))
-                return null;
+            this._useCache = useCache;
+            this._cacheDurationInMinutes = cacheDurationInMinutes;
+        }
 
-            var key = $"youtube_cache_{_numberFeedItems}_{channelId}";
+        public GetYoutubeFeedResponse GetYoutubeFeed(GetYoutubeFeedRequest getYoutubeFeedRequest)
+        {
+            if (string.IsNullOrEmpty(this._youtubeKey) || string.IsNullOrEmpty(getYoutubeFeedRequest.ChannelId))
+            {
+                return null;
+            }
+
+            var key = $"youtube_cache_{getYoutubeFeedRequest.MaxCount}_{getYoutubeFeedRequest.ChannelId}";
 
             if (_cache.Exists(key) && _useCache)
             {
-                return _cache.Get<List<YoutubeDetailModel>>(key);
+                return _cache.Get<GetYoutubeFeedResponse>(key);
             }
 
             var c = new WebClient();
             c.Encoding = System.Text.Encoding.UTF8;
 
             var youtubeChannelUrl =
-                string.Format(YoutubeChannelUrl, youtubeKey, channelId, _numberFeedItems);
+                string.Format(YoutubeChannelUrl, this._youtubeKey, getYoutubeFeedRequest.ChannelId, getYoutubeFeedRequest.MaxCount);
             var objData = c.DownloadString(youtubeChannelUrl);
 
             var youtubeModel = Newtonsoft.Json.JsonConvert.DeserializeObject<YoutubeModel.RootObject>(objData);
@@ -66,7 +67,7 @@ namespace Geta.SocialChannels.YouTube
                 var videoId = videoUrlItem[4];
 
                 var youtubeDetailUrl =
-                    string.Format(YoutubeVideoStatisticsUrl, videoId, youtubeKey);
+                    string.Format(YoutubeVideoStatisticsUrl, videoId, this._youtubeKey);
 
                 var objItem = c.DownloadString(youtubeDetailUrl);
 
@@ -84,16 +85,17 @@ namespace Geta.SocialChannels.YouTube
                     VideoUrl = string.Format(VideoLink, videoId)
                 };
 
-
-                if (_useCache)
-                {
-                    _cache.Add(key, youtubeDetails, new TimeSpan(0, _cacheDuration, 0));
-                }
-
                 youtubeDetails.Add(youtubeDetail);
             }
 
-            return youtubeDetails;
+            var getYoutubeFeedResponse = new GetYoutubeFeedResponse {Data = youtubeDetails};
+
+            if (_useCache)
+            {
+                _cache.Add(key, getYoutubeFeedResponse, new TimeSpan(0, _cacheDurationInMinutes, 0));
+            }
+
+            return getYoutubeFeedResponse;
         }
     }
 }

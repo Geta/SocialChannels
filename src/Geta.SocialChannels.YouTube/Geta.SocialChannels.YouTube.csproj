@@ -149,9 +149,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetYoutubeFeedRequest.cs" />
+    <Compile Include="GetYoutubeFeedResponse.cs" />
     <Compile Include="IYoutubeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YoutubeFeedBlockViewModel.cs" />
+    <Compile Include="YoutubeModel.cs" />
     <Compile Include="YoutubeService.cs" />
   </ItemGroup>
   <ItemGroup>

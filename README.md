@@ -48,15 +48,17 @@ Install-Package Geta.SocialChannels.Instagram
 
 ## Facebook
 1.	Setting App ID and App Secret:
-Step 1. Go to your app (https://developers.facebook.com/apps )
-Step 2. Click to view detail
+
+ Step 1. Go to your app (https://developers.facebook.com/apps )
+ Step 2. Click to view detail
  
 
 2.	To find Page ID:
-Step 1. Go to your page
-Step 2. Click "Settings"
-Step 3. Click "Page Info"
-Step 4. See "Facebook Page ID"
+
+ Step 1. Go to your page
+ Step 2. Click "Settings"
+ Step 3. Click "Page Info"
+ Step 4. See "Facebook Page ID"
 
 
 ```csharp
@@ -180,5 +182,139 @@ public class TweetItemModel
 var twitterService = new TwitterService(new Cache(), "consumerKey", "secretKey");
 
 var tweets = twitterService.GetTweets(new GetTweetsRequest{ UserName = "Geta_digital"})
+
+```
+
+## YouTube
+Gets the videos for a channel. You'll need an [API key](https://developers.google.com/youtube/v3/getting-started) and also your channel ID.
+
+To find Channel Id, sign in to Youtube and check [advanced your setting page](https://www.youtube.com/account_advanced)
+
+```csharp
+public interface IYoutubeService
+{
+	void Config(bool useCache, int cacheDurationInMinutes);
+
+	GetYoutubeFeedResponse GetYoutubeFeed(GetYoutubeFeedRequest getYoutubeFeedRequest);
+}
+
+public class GetYoutubeFeedRequest
+{
+	public string ChannelId { get; set; }
+
+	public int MaxCount { get; set; } = 10;
+}
+
+public class GetYoutubeFeedResponse
+{
+	 public List<YoutubeDetailModel> Data { get; set; } 
+}
+
+public class YoutubeDetailModel
+{
+	public string Title { get; set; }
+
+	public string Description { get; set; }
+
+	public string ImageUrl { get; set; }
+
+	public string ViewCount { get; set; }
+
+	public string LikeCount { get; set; }
+
+	public string DislikeCount { get; set; }
+
+	public string FavoriteCount { get; set; }
+
+	public DateTime PublishDate { get; set; }
+
+	public string VideoUrl { get; set; }
+
+	public string CreatedTimeSince => PublishDate.ToTimeSinceString();
+}
+
+public class YoutubeModel
+{
+	public class PageInfo
+	{
+		public int TotalResults { get; set; }
+		public int ResultsPerPage { get; set; }
+	}
+
+	public class Default
+	{
+		public string Url { get; set; }
+	}
+
+	public class Medium
+	{
+		public string Url { get; set; }
+	}
+
+	public class High
+	{
+		public string Url { get; set; }
+	}
+
+	public class Thumbnails
+	{
+		public Default Default { get; set; }
+		public Medium Medium { get; set; }
+		public High High { get; set; }
+	}
+
+	public class Snippet
+	{
+		public DateTime PublishedAt { get; set; }
+		public string ChannelId { get; set; }
+		public string Title { get; set; }
+		public string Description { get; set; }
+		public Thumbnails Thumbnails { get; set; }
+		public string ChannelTitle { get; set; }
+		public string LiveBroadcastContent { get; set; }
+	}
+
+	public class Item
+	{
+		public string Kind { get; set; }
+		public string Etag { get; set; }
+		public Snippet Snippet { get; set; }
+		public Statistics Statistics { get; set; }
+	}
+
+	public class RootObject
+	{
+		public string Kind { get; set; }
+
+		public string Etag { get; set; }
+
+		public PageInfo PageInfo { get; set; }
+
+		public List<Item> Items { get; set; }
+
+		public Statistics Statistics { get; set; }
+	}
+
+	public class Statistics
+	{
+		public string ViewCount { get; set; }
+
+		public string LikeCount { get; set; }
+
+		public string DislikeCount { get; set; }
+
+		public string FavoriteCount { get; set; }
+
+		public string CommentCount { get; set; }
+	}
+}
+```
+
+### Examples
+
+```csharp
+var youTubeService = new YouTubeService(new Cache(), "youtubeKey");
+
+var feed = youTubeService.GetYoutubeFeed(new GetYoutubeFeedRequest{ ChannelId = "channelId"});
 
 ```
