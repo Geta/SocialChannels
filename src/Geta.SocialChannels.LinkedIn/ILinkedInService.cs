@@ -5,6 +5,8 @@ namespace Geta.SocialChannels.LinkedIn
 {
     public interface ILinkedInService
     {
+        void Config(bool useCache, int cacheDurationInMinutes);
+
         /// <summary>
         /// Get access token from DDS.
         /// </summary>
@@ -21,12 +23,12 @@ namespace Geta.SocialChannels.LinkedIn
         /// <summary>
         /// Exchange authorization code for access token.
         /// </summary>
-        Task<LinkedInAccessTokenViewModel> ExchangeAccessTokenAsync(string authorizationCode, string clientId, string clientSecet);
+        Task<LinkedInAccessTokenViewModel> ExchangeAccessTokenAsync(string authorizationCode, string clientId, string clientSecret);
 
         /// <summary>
         /// Get linkedin company feeds.
         /// </summary>
         /// <returns></returns>
-        Task<LinkedInViewModel> GetFeedsAsync(string accessToken, string companyId);
+        Task<LinkedInViewModel> GetFeedsAsync(string accessToken, string companyId, int maxCount = 10);
     }
 }

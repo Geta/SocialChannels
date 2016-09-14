@@ -3,54 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.WebPages;
 using EPiServer.Data.Dynamic;
 using EPiServer.Logging;
+using EPiServer.ServiceLocation;
 using EPiServer.Web;
 
 namespace Geta.SocialChannels.LinkedIn
 {
+    [ServiceConfiguration(typeof(ILinkedInService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class LinkedInService : ILinkedInService
     {
         /// <summary>
         ///     The authorization url to get authorization code.
         /// </summary>
-        private const string UrlAuthorization =
-            "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id={0}&state={1}&redirect_uri={2}";
+        private const string UrlAuthorization = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id={0}&state={1}&redirect_uri={2}";
 
         /// <summary>
         ///     The url to exchange access token from authorization code.
         /// </summary>
-        private const string UrlExchangeAccessToken =
-            "https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code={0}&redirect_uri={1}&client_id={2}&client_secret={3}";
+        private const string UrlExchangeAccessToken = "https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code={0}&redirect_uri={1}&client_id={2}&client_secret={3}";
 
         /// <summary>
         ///     The url to get company feeds.
         /// </summary>
-        private const string UrlCompanyPageFeeds =
-            "https://api.linkedin.com/v1/companies/{0}/updates?count={1}&start={2}&format=json";
+        private const string UrlCompanyPageFeeds = "https://api.linkedin.com/v1/companies/{0}/updates?count={1}&start={2}&format=json";
 
-        private static readonly ILogger Logger = LogManager.GetLogger();
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(LinkedInService));
 
         private readonly ICache _cache;
 
-        private readonly int _cacheDuration;
-
-        private readonly int _numberFeedItems;
-
-        private readonly StartPage _startPage;
+        private int _cacheDurationInMinutes = 10;
+        private bool _useCache = true;
 
         public LinkedInService(ICache cache)
         {
             this._cache = cache;
+        }
 
-            //_startPage = ContentReference.StartPage.Get<StartPage>();
-            //_numberFeedItems = _startPage.SocialFeedSettings.NumberSocialFeedItems > 0
-            //    ? _startPage.SocialFeedSettings.NumberSocialFeedItems
-            //    : Constants.DefaultNumberSocialFeedItems;
-            //_cacheDuration = _startPage.SocialFeedSettings.SocialFeedCacheDuration > 0
-            //    ? _startPage.SocialFeedSettings.SocialFeedCacheDuration
-            //    : Constants.DefaultSocialFeedCacheDurationForMinutes;
+        public void Config(bool useCache, int cacheDurationInMinutes)
+        {
+            this._useCache = useCache;
+            this._cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
         /// <summary>
@@ -149,13 +142,13 @@ namespace Geta.SocialChannels.LinkedIn
         ///     Exchange authorization code for access token.
         /// </summary>
         public async Task<LinkedInAccessTokenViewModel> ExchangeAccessTokenAsync(string authorizationCode,
-            string clientId, string clientSecet)
+            string clientId, string clientSecret)
         {
             try
             {
                 LinkedInAccessTokenViewModel accessToken = null;
                 var url = string.Format(UrlExchangeAccessToken, authorizationCode, GetRedirectUrl(), clientId,
-                    clientSecet);
+                    clientSecret);
 
                 using (var httpClient = new HttpClient())
                 {
@@ -187,15 +180,15 @@ namespace Geta.SocialChannels.LinkedIn
         ///     Get linkedin company feeds.
         /// </summary>
         /// <returns></returns>
-        public Task<LinkedInViewModel> GetFeedsAsync(string accessToken, string companyId)
+        public Task<LinkedInViewModel> GetFeedsAsync(string accessToken, string companyId, int maxCount = 10)
         {
             return Task.Run(async () =>
             {
                 try
                 {
-                    var key = $"linkedin_feed_{companyId}_{_numberFeedItems}_{_cacheDuration}";
+                    var key = $"linkedin_feed_{companyId}_{maxCount}_{this._cacheDurationInMinutes}";
 
-                    if (_cache.Exists(key)) //&& _startPage.SocialFeedSettings.EnableSocialFeedCache)
+                    if (_cache.Exists(key) && _useCache)
                     {
                         return _cache.Get<LinkedInViewModel>(key);
                     }
@@ -206,24 +199,24 @@ namespace Geta.SocialChannels.LinkedIn
                     var tempValues = new List<LinkedInValuesViewModel>();
                     while (true)
                     {
-                        linkedInViewModel = await GetFeedsAsync(accessToken, companyId, offset);
+                        linkedInViewModel = await GetFeedsAsync(accessToken, companyId, offset, maxCount);
 
                         if (linkedInViewModel != null)
                         {
                             linkedInViewModel.Values = linkedInViewModel.Values.Where(p => p.IsShowOnView).ToList();
                             tempValues.AddRange(linkedInViewModel.Values);
 
-                            if (linkedInViewModel.Total <= _numberFeedItems + offset)
+                            if (linkedInViewModel.Total <= maxCount + offset)
                             {
                                 break;
                             }
 
-                            if (tempValues.Count >= _numberFeedItems)
+                            if (tempValues.Count >= maxCount)
                             {
                                 break;
                             }
 
-                            offset += _numberFeedItems;
+                            offset += maxCount;
                         }
                         else
                         {
@@ -235,15 +228,15 @@ namespace Geta.SocialChannels.LinkedIn
                     {
                         linkedInViewModel.Values = tempValues;
 
-                        if (linkedInViewModel.Values.Count > _numberFeedItems)
+                        if (linkedInViewModel.Values.Count > maxCount)
                         {
-                            linkedInViewModel.Values = linkedInViewModel.Values.Take(_numberFeedItems).ToList();
+                            linkedInViewModel.Values = linkedInViewModel.Values.Take(maxCount).ToList();
                         }
                     }
 
-                    if (linkedInViewModel != null)//_startPage.SocialFeedSettings.EnableSocialFeedCache && 
+                    if (linkedInViewModel != null && _useCache)
                     {
-                        _cache.Add(key, linkedInViewModel, new TimeSpan(0, _cacheDuration, 0));
+                        _cache.Add(key, linkedInViewModel, new TimeSpan(0, _cacheDurationInMinutes, 0));
                     }
 
                     return linkedInViewModel;
@@ -257,10 +250,10 @@ namespace Geta.SocialChannels.LinkedIn
             });
         }
 
-        private async Task<LinkedInViewModel> GetFeedsAsync(string accessToken, string companyId, int offset)
+        private async Task<LinkedInViewModel> GetFeedsAsync(string accessToken, string companyId, int offset, int maxCount = 10)
         {
             LinkedInViewModel linkedInViewModel = null;
-            var url = string.Format(UrlCompanyPageFeeds, companyId, _numberFeedItems, offset);
+            var url = string.Format(UrlCompanyPageFeeds, companyId, maxCount, offset);
 
             using (var httpClient = new HttpClient())
             {
