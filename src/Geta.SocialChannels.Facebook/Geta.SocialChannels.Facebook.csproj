@@ -150,7 +150,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FacebookFeedBlockViewModel.cs" />
+    <Compile Include="FacebookFeedRequest.cs" />
+    <Compile Include="FacebookFeedResponse.cs" />
     <Compile Include="FacebookService.cs" />
     <Compile Include="IFacebookService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

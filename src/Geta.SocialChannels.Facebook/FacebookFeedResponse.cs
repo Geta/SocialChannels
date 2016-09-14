@@ -4,20 +4,9 @@ using Newtonsoft.Json;
 
 namespace Geta.SocialChannels.Facebook
 {
-    public class FacebookFeedBlockViewModel
-    {
-        public string FacebookAppId { get; set; }
-
-        public FacbookAuthorInformation About;
-
-        public FacebookFeed FeedData { get; set; }
-    }
-
-    public class FacebookFeed
+    public class FacebookFeedResponse
     {
         public List<FacebookPostItem> Data;
-
-        public FacebookPagingModel Paging;
     }
 
     public class FacbookAuthorInformation
@@ -26,7 +15,7 @@ namespace Geta.SocialChannels.Facebook
 
         public string Name { get; set; }
 
-        public string Url => string.Format("https://www.facebook.com/{0}", Id);
+        public string Url => $"https://www.facebook.com/{Id}";
     }
 
     public class FacebookPostItem
@@ -41,12 +30,5 @@ namespace Geta.SocialChannels.Facebook
         public string CreatedTimeSince => CreatedTime.ToTimeSinceString();
 
         public FacbookAuthorInformation From { get; set; }
-    }
-
-    public class FacebookPagingModel
-    {
-        public string Next { get; set; }
-
-        public string Previous { get; set; }
     }
 }

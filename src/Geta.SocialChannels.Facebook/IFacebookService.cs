@@ -2,10 +2,10 @@
 {
     public interface IFacebookService
     {
-        void Config(string appId, string appSecret, string facebookId);
+        void Config(bool useCache, int cacheDurationInMinutes);
 
         FacbookAuthorInformation GetInformation();
 
-        FacebookFeed GetFacebookFeed();
+        FacebookFeedResponse GetFacebookFeed(FacebookFeedRequest facebookFeedRequest);
     }
 }
