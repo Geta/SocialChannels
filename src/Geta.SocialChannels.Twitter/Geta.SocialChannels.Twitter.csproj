@@ -149,9 +149,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetTweetsRequest.cs" />
+    <Compile Include="GetTweetsResponse.cs" />
     <Compile Include="ITwitterService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwitterFeedBlockViewModel.cs" />
+    <Compile Include="TweetItemModel.cs" />
     <Compile Include="TwitterService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Geta.SocialChannels.Twitter
+﻿namespace Geta.SocialChannels.Twitter
 {
     public interface ITwitterService
     {
-        void Config(string appConsumerKey, string appConsumerSecret, string userName);
+        void Config(bool useCache, int cacheDurationInMinutes);
 
-        List<TweetItemModel> GetTweets();
+        GetTweetsResponse GetTweets(GetTweetsRequest getTweetsRequest);
     }
 }

@@ -1,20 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace Geta.SocialChannels.Twitter
 {
-    public class TwitterFeedBlockViewModel
-    {
-        public virtual string TwitterAppConsumerKey { get; set; }
-
-        public virtual string TwitterAppConsumerSecret { get; set; }
-
-        public virtual string TwitterUserName { get; set; }
-
-        public List<TweetItemModel> Tweets { get; set; }
-    }
-
     public class TweetItemModel
     {
         public string StatusId { get; set; }

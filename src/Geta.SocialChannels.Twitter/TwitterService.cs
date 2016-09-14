@@ -19,39 +19,33 @@ namespace Geta.SocialChannels.Twitter
 
         private static readonly ILog Logger = LogManager.GetLogger(typeof(TwitterService));
         private readonly ICache _cache;
-        private string _twitterUserName;
-        private string _twitterConsumerKey;
-        private string _twitterConsumerSecretKey;
+        private readonly string _twitterConsumerKey;
+        private readonly string _twitterConsumerSecretKey;
 
-        private readonly bool _useCache;
-        private readonly int _cacheDuration;
-        private readonly int _numberFeedItems;
+        private bool _useCache = true;
+        private int _cacheDurationInMinutes = 10;
 
-        public TwitterService(ICache cache)
+        public TwitterService(ICache cache, string consumerKey, string secretKey)
         {
             this._cache = cache;
+            this._twitterConsumerKey = consumerKey;
+            this._twitterConsumerSecretKey = secretKey;
 
-            //var startPage = ContentReference.StartPage.Get<StartPage>();
-
-            //_numberFeedItems = startPage.SocialFeedSettings.NumberSocialFeedItems > 0 ? startPage.SocialFeedSettings.NumberSocialFeedItems : Constants.DefaultNumberSocialFeedItems;
-            //_cacheDuration = startPage.SocialFeedSettings.SocialFeedCacheDuration > 0 ? startPage.SocialFeedSettings.SocialFeedCacheDuration : Constants.DefaultSocialFeedCacheDurationForMinutes;
-            //_useCache = startPage.SocialFeedSettings.EnableSocialFeedCache;
         }
 
-        public void Config(string appConsumerKey, string appConsumerSecret, string userName)
+        public void Config(bool useCache, int cacheDurationInMinutes)
         {
-            _twitterConsumerKey = appConsumerKey;
-            _twitterConsumerSecretKey = appConsumerSecret;
-            _twitterUserName = userName;
+            this._useCache = useCache;
+            this._cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
-        public List<TweetItemModel> GetTweets()
+        public GetTweetsResponse GetTweets(GetTweetsRequest getTweetsRequest)
         {
-            var key = $"tweet_items_{_numberFeedItems}_{_twitterUserName}";
+            var key = $"tweet_items_{getTweetsRequest.MaxCount}_{getTweetsRequest.UserName}";
 
             if (_cache.Exists(key) && _useCache)
             {
-                return _cache.Get<List<TweetItemModel>>(key);
+                return _cache.Get<GetTweetsResponse>(key);
             }
 
             var accessToken = GetAccessKey();
@@ -61,7 +55,7 @@ namespace Geta.SocialChannels.Twitter
                 return null;
             }
 
-            var request = WebRequest.Create(string.Format(TimelineApi, _numberFeedItems, _twitterUserName));
+            var request = WebRequest.Create(string.Format(TimelineApi, getTweetsRequest.MaxCount, getTweetsRequest.UserName));
             request.Headers.Add("Authorization", "Bearer " + accessToken);
 
             try
@@ -89,29 +83,31 @@ namespace Geta.SocialChannels.Twitter
                     var items = enumerableTwitts.Select(t => new TweetItemModel
                     {
                         StatusId = (string)(t["id_str"].ToString()),
-                        Link = GetTweetLink((string)(t["id_str"].ToString())),
+                        Link = GetTweetLink((string)(t["id_str"].ToString()), getTweetsRequest.UserName),
                         CreatedDate = t["created_at"].ToString(),
                         Text = t["text"] != null ? WebUtility.HtmlDecode(t["text"].ToString()) : ""
                     }).ToList();
 
+                    var getTweetsResponse = new GetTweetsResponse {Success = true, Tweets = items};
+
                     if (_useCache && items.Any())
                     {
-                        _cache.Add(key, items, new TimeSpan(0, _cacheDuration, 0));
+                        _cache.Add(key, getTweetsResponse, new TimeSpan(0, _cacheDurationInMinutes, 0));
                     }
 
-                    return items;
+                    return getTweetsResponse;
                 }
             }
             catch (Exception e)
             {
-                Logger.Error("TwitterService", e);
+                Logger.Error(e);
             }
 
             return null;
         }
-        private string GetTweetLink(string statusId)
+        private string GetTweetLink(string statusId, string username)
         {
-            return string.Format(TwitterLink, _twitterUserName, statusId);
+            return string.Format(TwitterLink, username, statusId);
         }
 
         public string GetAccessKey()
@@ -159,7 +155,7 @@ namespace Geta.SocialChannels.Twitter
 
                     if (_useCache && tokenKey != null)
                     {
-                        _cache.Add<string>(key, tokenKey, new TimeSpan(0, _cacheDuration, 0));
+                        _cache.Add<string>(key, tokenKey, new TimeSpan(0, _cacheDurationInMinutes, 0));
                     }
 
                     return item["access_token"];
@@ -167,7 +163,7 @@ namespace Geta.SocialChannels.Twitter
             }
             catch (Exception e)
             {
-                Logger.Error("TwitterService", e);
+                Logger.Error(e);
             }
 
             return string.Empty;
