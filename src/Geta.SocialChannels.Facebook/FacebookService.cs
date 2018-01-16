@@ -10,63 +10,56 @@ namespace Geta.SocialChannels.Facebook
     [ServiceConfiguration(typeof(IFacebookService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class FacebookService : IFacebookService
     {
-        private string FacebookInfoCacheKey => $"facebook_about_{_facebookId}";
-        private string FacebookInfoUrl => $"https://graph.facebook.com/v2.5/{_facebookId}";
-
-        private const string FacebookFeedFields = "&fields = caption, id, created_time, message,from, name, type, is_published, shares";
-
-        private string FacebookTokenUrl => $"https://graph.facebook.com/oauth/access_token?type=client_cred&client_id={_appId}&client_secret={_appSecret}";
-        private string FacebookTokenCacheKey => $"facebook_token_{_appId}";
-
-        private string AuthenticationHeader => $"Bearer {_token}";
-
         private static readonly ILog Logger = LogManager.GetLogger(typeof(FacebookService));
+        
         private readonly ICache _cache;
-
         private readonly string _appId;
         private readonly string _appSecret;
-        private readonly string _facebookId;
         private readonly string _token;
-
+        
+        private const string FacebookFeedFields = "&fields = caption, id, created_time, message,from, name, type, is_published, shares";
+        private string FacebookTokenUrl => $"https://graph.facebook.com/oauth/access_token?type=client_cred&client_id={_appId}&client_secret={_appSecret}";
+        private string AuthenticationHeader => $"Bearer {_token}";
         private bool _useCache = true;
         private int _cacheDurationInMinutes = 10;
 
-        public FacebookService(ICache cache, string appId, string appSecret, string facebookId)
+        public FacebookService(ICache cache, string appId, string appSecret)
         {
-            this._cache = cache;
-            this._appId = appId;
-            this._appSecret = appSecret;
-            this._facebookId = facebookId;
-
+            _cache = cache;
+            _appId = appId;
+            _appSecret = appSecret;
+            
             _token = GetAppToken();
         }
 
         public void Config(bool useCache, int cacheDurationInMinutes)
         {
-            this._useCache = useCache;
-            this._cacheDurationInMinutes = cacheDurationInMinutes;
+            _useCache = useCache;
+            _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
-        public FacbookAuthorInformation GetInformation()
+        public FacbookAuthorInformation GetInformation(string userName)
         {
-            if (string.IsNullOrEmpty(_token))
+            if (string.IsNullOrEmpty(_token) || string.IsNullOrEmpty(userName))
             {
                 return null;
             }
 
-            if (_cache.Exists(FacebookInfoCacheKey) && _useCache)
+            var facebookInfoCacheKey = $"facebook_about_{userName}";
+            if (_cache.Exists(facebookInfoCacheKey) && _useCache)
             {
-                return _cache.Get<FacbookAuthorInformation>(FacebookInfoCacheKey);
+                return _cache.Get<FacbookAuthorInformation>(facebookInfoCacheKey);
             }
 
+            var facebookInfoUrl = $"https://graph.facebook.com/v2.5/{userName}";
             try
             {
-                var text = HttpUtils.Get(FacebookInfoUrl, AuthenticationHeader);
+                var text = HttpUtils.Get(facebookInfoUrl, AuthenticationHeader);
                 var data = JsonConvert.DeserializeObject<FacbookAuthorInformation>(text);
 
                 if (_useCache && data != null)
                 {
-                    _cache.Add(FacebookInfoCacheKey, data, new TimeSpan(0, _cacheDurationInMinutes, 0));
+                    _cache.Add(facebookInfoCacheKey, data, new TimeSpan(0, _cacheDurationInMinutes, 0));
                 }
 
                 return data;
@@ -74,27 +67,24 @@ namespace Geta.SocialChannels.Facebook
             catch (Exception ex)
             {
                 Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-
                 return null;
             }
         }
 
         public FacebookFeedResponse GetFacebookFeed(FacebookFeedRequest facebookFeedRequest)
         {
-            if (string.IsNullOrEmpty(_token))
+            if (string.IsNullOrEmpty(_token) || string.IsNullOrEmpty(facebookFeedRequest.UserName))
             {
                 return null;
             }
 
-            string facebookFeedCacheKey = $"facebook_feed_{_facebookId}_{facebookFeedRequest.MaxCount}";
-
+            var facebookFeedCacheKey = $"facebook_feed_{facebookFeedRequest.UserName}_{facebookFeedRequest.MaxCount}";
             if (_cache.Exists(facebookFeedCacheKey) && _useCache)
             {
                 return _cache.Get<FacebookFeedResponse>(facebookFeedCacheKey);
             }
 
-            string facebookFeedUrl = $"https://graph.facebook.com/v2.5/{_facebookId}/posts?limit={facebookFeedRequest.MaxCount}{FacebookFeedFields}";
-
+            var facebookFeedUrl = $"https://graph.facebook.com/v2.5/{facebookFeedRequest.UserName}/posts?limit={facebookFeedRequest.MaxCount}{FacebookFeedFields}";
             try
             {
                 var posts = HttpUtils.Get(facebookFeedUrl, AuthenticationHeader);
@@ -116,23 +106,21 @@ namespace Geta.SocialChannels.Facebook
 
         private string GetAppToken()
         {
-            if (string.IsNullOrEmpty(_appId)
-                    || string.IsNullOrEmpty(_appSecret)
-                    || string.IsNullOrEmpty(_facebookId))
+            if (string.IsNullOrEmpty(_appId) || string.IsNullOrEmpty(_appSecret))
             {
                 return string.Empty;
             }
 
-            if (_cache.Exists(FacebookTokenCacheKey) && _useCache)
+            var facebookTokenCacheKey = $"facebook_token_{_appId}";
+            if (_cache.Exists(facebookTokenCacheKey) && _useCache)
             {
-                return _cache.Get<string>(FacebookTokenCacheKey);
+                return _cache.Get<string>(facebookTokenCacheKey);
             }
 
             var token = GetAppTokenFromFacebook();
-
             if (_useCache && !string.IsNullOrEmpty(token))
             {
-                _cache.Add(token, FacebookTokenCacheKey, new TimeSpan(0, _cacheDurationInMinutes, 0));
+                _cache.Add(token, facebookTokenCacheKey, new TimeSpan(0, _cacheDurationInMinutes, 0));
             }
 
             return token;
