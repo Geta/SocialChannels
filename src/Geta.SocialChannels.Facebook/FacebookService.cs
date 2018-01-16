@@ -18,7 +18,7 @@ namespace Geta.SocialChannels.Facebook
         private string FacebookTokenUrl => $"https://graph.facebook.com/oauth/access_token?type=client_cred&client_id={_appId}&client_secret={_appSecret}";
         private string FacebookTokenCacheKey => $"facebook_token_{_appId}";
 
-        private string AuthenticationHeader => $"OAuth {_token}";
+        private string AuthenticationHeader => $"Bearer {_token}";
 
         private static readonly ILog Logger = LogManager.GetLogger(typeof(FacebookService));
         private readonly ICache _cache;
@@ -151,9 +151,10 @@ namespace Geta.SocialChannels.Facebook
                 return string.Empty;
             }
 
-            if (!string.IsNullOrEmpty(token) && token.Contains('='))
+            if (!string.IsNullOrEmpty(token))
             {
-                token = token.Split('=')[1];
+                var tokenObject = JsonConvert.DeserializeObject<dynamic>(token);
+                token = tokenObject["access_token"].ToString();
             }
 
             return token;
