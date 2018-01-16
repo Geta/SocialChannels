@@ -155,7 +155,7 @@ namespace Geta.SocialChannels.Twitter
 
                     if (_useCache && tokenKey != null)
                     {
-                        _cache.Add<string>(key, tokenKey, new TimeSpan(0, _cacheDurationInMinutes, 0));
+                        _cache.Add(key, tokenKey, new TimeSpan(0, _cacheDurationInMinutes, 0));
                     }
 
                     return item["access_token"];
