@@ -145,6 +145,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetPostsRequest.cs" />
+    <Compile Include="IInstagramService.cs" />
+    <Compile Include="InstagramResponse.cs" />
+    <Compile Include="InstagramService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

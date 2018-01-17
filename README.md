@@ -68,13 +68,14 @@ public interface IFacebookService
 {
 	void Config(bool useCache, int cacheDurationInMinutes);
 
-	FacbookAuthorInformation GetInformation();
+	FacbookAuthorInformation GetInformation(string username);
 
 	FacebookFeedResponse GetFacebookFeed(FacebookFeedRequest facebookFeedRequest);
 }
 
 public class FacebookFeedRequest
 {
+    public string Username { get; set; }
 	public int MaxCount { get; set; } = 10;
 }
 
@@ -109,9 +110,9 @@ public class FacebookPostItem
 
 ### Examples
 ```csharp
-var facebookService = new FacebookService(new Cache(), "appId", "appSecret", "facebookId")
+var facebookService = new FacebookService(new Cache(), "appId", "appSecret")
 
-var facebookFeed = facebookService.GetFacebookFeed(new FacebookFeedRequest());
+var facebookFeed = facebookService.GetFacebookFeed(new FacebookFeedRequest { Username = "geta" });
 ```
 
 ## Twitter
@@ -319,4 +320,144 @@ var youTubeService = new YouTubeService(new Cache(), "youtubeKey");
 
 var feed = youTubeService.GetYoutubeFeed(new GetYoutubeFeedRequest{ ChannelId = "channelId"});
 
+```
+
+## Instagram
+Gets the instagram posts of the user associated with the token, a different user, or from a hashtag.
+To retrieve the access token, see the documentation from Instagram: [https://www.instagram.com/developer/authentication/](https://www.instagram.com/developer/authentication/)
+
+```csharp
+public interface IInstagramService
+{
+    void Config(bool useCache, int cacheDurationInMinutes);
+    InstagramResponse GetPostsBySelf(int maxCount);
+    InstagramResponse GetPostsByUser(GetPostsRequest request);
+    InstagramResponse GetPostsByTag(GetPostsRequest request);
+}
+```
+```csharp
+public class GetPostsRequest
+{
+    public string Query { get; set; }
+    public int MaxCount { get; set; }
+}
+```
+```csharp
+public class InstagramResponse
+{
+    public Datum[] Data { get; set; }
+    public Pagination Page { get; set; }
+}
+
+public class Datum
+{
+    public object[] Tags { get; set; }
+    public double CreatedTime { get; set; }
+    public string Link { get; set; }
+    public Likes Likes { get; set; }
+    public Images Images { get; set; }
+    public Videos Videos { get; set; }
+    public Caption Caption { get; set; }
+    public User User { get; set; }
+    public string Id { get; set; }
+}
+
+public class Caption
+{
+    public double CreatedTime { get; set; }
+    public string Text { get; set; }
+    public PostFrom From { get; set; }
+    public string Id { get; set; }
+}
+
+public class Images
+{
+    public StandardResolutionImage Picture { get; set; }
+    public LowResolutionImage LowResPicture { get; set; }
+    public ThumbnailImage ThumbnailPicture { get; set; }
+}
+
+public class Likes
+{
+    public int Count { get; set; }
+}
+
+public class LowBandwidthVideo
+{
+    public string Url { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+}
+
+public class LowResolutionImage
+{
+    public string Url { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+}
+
+public class LowResolutionVideo
+{
+    public string Url { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+}
+
+public class Pagination
+{
+    public string NextUrl { get; set; }
+    public string NextMaxId { get; set; }
+}
+
+public class PostFrom
+{
+    public string UserName { get; set; }
+    public string ProfilePicture { get; set; }
+    public string Id { get; set; }
+    public string FullName { get; set; }
+}
+
+public class StandardResolutionImage
+{
+    public string Url { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+}
+
+public class StandardResolutionVideo
+{
+    public string Url { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+}
+
+public class ThumbnailImage
+{
+    public string Url { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+}
+
+public class User
+{
+    public string UserName { get; set; }
+    public string ProfilePicture { get; set; }
+    public string Id { get; set; }
+    public string FullName { get; set; }
+}
+
+public class Videos
+{
+    public LowResolutionVideo LowResVideo { get; set; }
+    public StandardResolutionVideo StandardResVideo { get; set; }
+    public LowBandwidthVideo LowBandwidthVideo { get; set; }
+}
+```
+### Examples
+```csharp
+var instagramService = new InstagramService(new Cache(), "instagramAccessToken");
+
+var postsBySelf = instagramService.GetPostsBySelf(10);
+var postsByUser = instagramService.GetPostsByUser(new GetPostsRequest { Query = "geta", MaxCount = 10 });
+var postsByTag = instagramService.GetPostsByTag(new GetPostsRequest { Query = "development", MaxCount = 10 });
 ```
