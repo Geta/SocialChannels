@@ -324,7 +324,7 @@ var feed = youTubeService.GetYoutubeFeed(new GetYoutubeFeedRequest{ ChannelId = 
 
 ## Instagram
 Gets the instagram posts of the user associated with the token, a different user, or from a hashtag.
-To retrieve the access token, see the documentation from Instagram: [https://www.instagram.com/developer/authentication/](https://www.instagram.com/developer/authentication/)
+To retrieve the access token, see the documentation from Instagram: [https://www.instagram.com/developer/authentication/](https://www.instagram.com/developer/authentication/). Pro tip, simplest way is to just follow the client side instructions.
 
 ```csharp
 public interface IInstagramService
