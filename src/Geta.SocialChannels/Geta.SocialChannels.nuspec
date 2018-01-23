@@ -5,9 +5,13 @@
     <version>$version$</version>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <projectUrl>https://github.com/Geta/Geta.SocialChannels</projectUrl>
+    <projectUrl>https://github.com/Geta/SocialChannels</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
     <description>$description$</description>
     <tags>Geta Foundation Social Channels</tags>
+    <dependencies>
+      <dependency id="EPiServer.CMS.Core" version="[11.3.2, 12.0)" />
+    </dependencies>
   </metadata>
 </package>

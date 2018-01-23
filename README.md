@@ -4,15 +4,27 @@
 [![Platform](https://img.shields.io/badge/Platform-.NET%204.5.2-blue.svg?style=flat)](https://msdn.microsoft.com/en-us/library/w0x726c2%28v=vs.110%29.aspx)
 [![Platform](https://img.shields.io/badge/Episerver-%2010-orange.svg?style=flat)](http://world.episerver.com/cms/)
 
-This project contains 6 different packages for 5 different social media channels.
+## Description
+This project contains 6 different packages for 5 different social media channels. 
 
-By default caching is enabled and set to 10 minutes.
+* [Facebook](https://www.facebook.com)
+* [Twitter](https://www.twitter.com)
+* [LinkedIn](https://www.linkedin.com)
+* [YouTube](https://www.youtube.com)
+* [Instagram](https://www.instagram.com)
 
- * [Facebook](https://www.facebook.com)
- * [Twitter](https://www.twitter.com)
- * [LinkedIn](https://www.linkedin.com)
- * [YouTube](https://www.youtube.com)
- * [Instagram](https://www.instagram.com)
+## Features
+* Integrations to social media channels
+* Caching of response - by default caching is enabled and set to 10 minutes
+* Facebook: get Facebook account information by username
+* Facebook: get X posts by username
+* Twitter: get X tweets by username
+* Instagram: get X posts by self
+* Instagram: get X posts by username
+* Instagram: get X posts by tag
+* LinkedIn: EPiServer feed block
+* LinkedIn: get X feed by company id
+* YouTube: get X feed by channel id
  
 ## Installation
 Available through Geta's NuGet feed:
@@ -461,3 +473,12 @@ var postsBySelf = instagramService.GetPostsBySelf(10);
 var postsByUser = instagramService.GetPostsByUser(new GetPostsRequest { Query = "geta", MaxCount = 10 });
 var postsByTag = instagramService.GetPostsByTag(new GetPostsRequest { Query = "development", MaxCount = 10 });
 ```
+
+## Package maintainer
+https://github.com/frederikvig
+
+
+## Changelog
+1.0.0.
+  1. Added support for EPiServer 11
+  2. Added support for net462
