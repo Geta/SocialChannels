@@ -477,8 +477,6 @@ var postsByTag = instagramService.GetPostsByTag(new GetPostsRequest { Query = "d
 ## Package maintainer
 https://github.com/frederikvig
 
-
 ## Changelog
-1.0.0.
-  1. Added support for EPiServer 11
-  2. Added support for net462
+[Changelog](CHANGELOG.md)
+
