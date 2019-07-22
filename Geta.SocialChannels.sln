@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels", "src\Geta.SocialChannels\Geta.SocialChannels.csproj", "{1E56DE5D-956C-4D8D-8A01-72867423377E}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.LinkedIn", "src\Geta.SocialChannels.LinkedIn\Geta.SocialChannels.LinkedIn.csproj", "{14F02947-E543-46DB-9FCA-DEE142411B73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.YouTube", "src\Geta.SocialChannels.YouTube\Geta.SocialChannels.YouTube.csproj", "{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Sample", "samples\Geta.SocialChannels.Sample\Geta.SocialChannels.Sample.csproj", "{6A367734-408A-45FF-98CF-290EC2F38B16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +47,15 @@ Global
 		{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A367734-408A-45FF-98CF-290EC2F38B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A367734-408A-45FF-98CF-290EC2F38B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A367734-408A-45FF-98CF-290EC2F38B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A367734-408A-45FF-98CF-290EC2F38B16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A6AD9E71-48D9-49B4-9BEC-B7350161EEDD}
 	EndGlobalSection
 EndGlobal
