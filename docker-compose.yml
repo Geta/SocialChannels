@@ -16,10 +16,10 @@ services:
     image: microsoft/mssql-server-windows-developer:1709
     environment:
      - ACCEPT_EULA=Y
-     - sa_password=T@gs19
+     - sa_password=Ch@nnel!23
      - attach_dbs=[{'dbName':'EPiServerDB_3c11f6b9','dbFiles':['C:\\data\\EPiServerDB_3c11f6b9.mdf','C:\\data\\EPiServerDB_3c11f6b9_log.ldf']}]
     volumes: 
-      - ../SocialChannels/samples/Geta.SocialChannels.Sample/App_Data:C:/data/
+      - ./samples/Geta.SocialChannels.Sample/App_Data:C:/data/
     networks:
       - geta-socialchannels-network
 networks: 
