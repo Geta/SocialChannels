@@ -6,7 +6,7 @@
     <ProjectGuid>a12fe7d8-c5f6-448b-87aa-e836d2a218b8</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>http://{ServiceIPAddress}</DockerServiceUrl>
-    <DockerServiceName>geta.socialchannels.sample</DockerServiceName>
+    <DockerServiceName>geta-socialchannels-sample</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
