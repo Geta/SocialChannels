@@ -31,7 +31,7 @@
             }
         }
 
-        @if (Model.TwitterResponse != null && Model.TwitterResponse.Success)
+        @if (Model.ShowTwitterFeed)
         {
             <h3>Twitter channel feed - @Model.TwitterResponse.Tweets.Count tweets found</h3>
             foreach (var twitterItem in Model.TwitterResponse.Tweets)
@@ -40,12 +40,38 @@
             }
         }
 
-        @if (Model.LinkedInResponse != null && Model.LinkedInResponse.Status == System.Threading.Tasks.TaskStatus.RanToCompletion)
+        @if (Model.ShowLinkedInFeed)
         {
-            <h3>LinkedIn channel feed - @Model.LinkedInResponse.Result.Count items found</h3>
-            foreach (var companyFeed in Model.LinkedInResponse.Result.Values)
+            <h3>LinkedIn channel feed - @Model.LinkedInResponse.Result.Values.Count items found</h3>
+            foreach (var companyFeedItem in Model.LinkedInResponse.Result.Values)
             {
-                <div>@companyFeed.UpdateContent.CompanyStatusUpdate.Share.Comment</div>
+                <div>@companyFeedItem.UpdateContent.CompanyStatusUpdate.Share.Comment</div>
+            }
+        }
+
+        @if (Model.ShowInstagramFeed)
+        {
+            <h3>Instagram channel feed - @Model.InstagramResponse.Data.Length items found</h3>
+            foreach (var instagramFeedItem in Model.InstagramResponse.Data)
+            {
+                <a href="@instagramFeedItem.Link"> @instagramFeedItem.User.FullName</a>
+            }
+        }
+        
+        @if (Model.ShowInstagramByUserFeed)
+        {
+            <h3>Instagram by User channel feed - @Model.InstagramByUserResponse.Data.Length items found</h3>
+            foreach (var instagramByUserFeedItem in Model.InstagramByUserResponse.Data)
+            {
+                <a href="@instagramByUserFeedItem.Link"> @instagramByUserFeedItem.User.FullName</a>
+            }
+        }
+        @if (Model.ShowInstagramByTagFeed)
+        {
+            <h3>Instagram by tag channel feed - @Model.InstagramByTagResponse.Data.Length items found</h3>
+            foreach (var instagramByTagFeedItem in Model.InstagramByTagResponse.Data)
+            {
+                <a href="@instagramByTagFeedItem.Link"> @instagramByTagFeedItem.User.FullName</a>
             }
         }
 

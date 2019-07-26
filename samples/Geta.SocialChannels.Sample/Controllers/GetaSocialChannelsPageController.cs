@@ -1,7 +1,6 @@
-﻿using System;
-using System.Web.Mvc;
-using EPiServer;
+﻿using System.Web.Mvc;
 using Geta.SocialChannels.Facebook;
+using Geta.SocialChannels.Instagram;
 using Geta.SocialChannels.LinkedIn;
 using Geta.SocialChannels.Sample.Models.Pages;
 using Geta.SocialChannels.Sample.Models.ViewModels;
@@ -28,10 +27,20 @@ namespace Geta.SocialChannels.Sample.Controllers
             var linkedInService = new LinkedInService(new Cache());
             var companyFeeds = linkedInService.GetFeedsAsync(currentPage.LinkedInAccessToken, currentPage.LinkedInCompanyId);
 
+            var instagramService = new InstagramService(new Cache(), currentPage.InstagramAccessToken);
+
+            var postsBySelf = instagramService.GetPostsBySelf(10);
+            var postsByUser = instagramService.GetPostsByUser(new GetPostsRequest { Query = currentPage.InstagramPostsByUser, MaxCount = 10 });
+            var postsByTag = instagramService.GetPostsByTag(new GetPostsRequest { Query = currentPage.InstagramPostsByTag, MaxCount = 10 });
+
+
             model.YoutubeFeed = youtubeFeed;
             model.FacebookFeed = facebookFeed;
             model.TwitterResponse = tweets;
             model.LinkedInResponse = companyFeeds;
+            model.InstagramResponse = postsBySelf;
+            model.InstagramResponse = postsByUser;
+            model.InstagramResponse = postsByTag;
 
             return View(model);
         }

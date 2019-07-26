@@ -26,5 +26,11 @@
         public virtual string LinkedInAccessToken { get; set; }
 
         public virtual string LinkedInCompanyId { get; set; }
+
+        public virtual string InstagramAccessToken { get; set; }
+
+        public virtual string InstagramPostsByUser { get; set; }
+
+        public virtual string InstagramPostsByTag { get; set; }
     }
 }
