@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using EPiServer;
 using Geta.SocialChannels.Facebook;
+using Geta.SocialChannels.LinkedIn;
 using Geta.SocialChannels.Sample.Models.Pages;
 using Geta.SocialChannels.Sample.Models.ViewModels;
 using Geta.SocialChannels.Twitter;
@@ -24,11 +25,13 @@ namespace Geta.SocialChannels.Sample.Controllers
             var twitterService = new TwitterService(new Cache(), currentPage.TwitterConsumerKey, currentPage.TwitterSecretKey);
             var tweets = twitterService.GetTweets(new GetTweetsRequest {UserName = currentPage.TwitterUserName});
 
-
+            var linkedInService = new LinkedInService(new Cache());
+            var companyFeeds = linkedInService.GetFeedsAsync(currentPage.LinkedInAccessToken, currentPage.LinkedInCompanyId);
 
             model.YoutubeFeed = youtubeFeed;
             model.FacebookFeed = facebookFeed;
             model.TwitterResponse = tweets;
+            model.LinkedInResponse = companyFeeds;
 
             return View(model);
         }

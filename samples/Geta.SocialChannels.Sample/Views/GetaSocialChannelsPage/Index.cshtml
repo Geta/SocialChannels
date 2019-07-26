@@ -40,6 +40,15 @@
             }
         }
 
+        @if (Model.LinkedInResponse != null && Model.LinkedInResponse.Status == System.Threading.Tasks.TaskStatus.RanToCompletion)
+        {
+            <h3>LinkedIn channel feed - @Model.LinkedInResponse.Result.Count items found</h3>
+            foreach (var companyFeed in Model.LinkedInResponse.Result.Values)
+            {
+                <div>@companyFeed.UpdateContent.CompanyStatusUpdate.Share.Comment</div>
+            }
+        }
+
     </div>
 </div>
 
