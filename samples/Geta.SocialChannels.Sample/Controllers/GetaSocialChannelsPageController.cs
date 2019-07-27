@@ -1,11 +1,12 @@
-﻿using System.Web.Mvc;
-using Geta.SocialChannels.Facebook;
+﻿using Geta.SocialChannels.Facebook;
 using Geta.SocialChannels.Instagram;
 using Geta.SocialChannels.LinkedIn;
 using Geta.SocialChannels.Sample.Models.Pages;
 using Geta.SocialChannels.Sample.Models.ViewModels;
 using Geta.SocialChannels.Twitter;
 using Geta.SocialChannels.YouTube;
+using System;
+using System.Web.Mvc;
 
 namespace Geta.SocialChannels.Sample.Controllers
 {
@@ -24,8 +25,16 @@ namespace Geta.SocialChannels.Sample.Controllers
             var twitterService = new TwitterService(new Cache(), currentPage.TwitterConsumerKey, currentPage.TwitterSecretKey);
             var tweets = twitterService.GetTweets(new GetTweetsRequest {UserName = currentPage.TwitterUserName});
 
-            var linkedInService = new LinkedInService(new Cache());
-            var companyFeeds = linkedInService.GetFeedsAsync(currentPage.LinkedInAccessToken, currentPage.LinkedInCompanyId);
+            var linkedInService = new LinkedInService(new Cache());          
+            var accessTokenData = linkedInService.GetAccessTokenData(new LinkedInFeedBlock
+            {
+                Id = currentPage.LinkedInBlockFeedId,
+                ClientId = currentPage.LinkedInClientId,
+                ClientSecret = currentPage.LinkedInClientSecret,
+                CompanyId = currentPage.LinkedInCompanyId
+            });
+
+            var companyFeeds = linkedInService.GetFeedsAsync(accessTokenData.AccessToken, currentPage.LinkedInCompanyId.ToString());
 
             var instagramService = new InstagramService(new Cache(), currentPage.InstagramAccessToken);
 

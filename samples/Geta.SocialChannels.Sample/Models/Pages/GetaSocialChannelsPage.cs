@@ -23,9 +23,13 @@
 
         public virtual string TwitterUserName { get; set; }
 
-        public virtual string LinkedInAccessToken { get; set; }
+        public virtual string LinkedInBlockFeedId { get; set; }
 
-        public virtual string LinkedInCompanyId { get; set; }
+        public virtual string LinkedInClientId { get; set; }
+
+        public virtual string LinkedInClientSecret { get; set; }
+
+        public virtual int LinkedInCompanyId { get; set; }
 
         public virtual string InstagramAccessToken { get; set; }
 
