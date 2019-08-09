@@ -5,7 +5,7 @@
     <DockerTargetOS>Windows</DockerTargetOS>
     <ProjectGuid>a12fe7d8-c5f6-448b-87aa-e836d2a218b8</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>http://{ServiceIPAddress}</DockerServiceUrl>
+    <DockerServiceUrl>http://socialchannels.getalocaltest.me</DockerServiceUrl>
     <DockerServiceName>geta-socialchannels-sample</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/badge/Episerver-%2011-orange.svg?style=flat)](http://world.episerver.com/cms/)
 
 ## Description
-This project contains 6 different packages for 5 different social media channels. 
+This project contains 6 different packages for 5 different social media channels.
 
 * [Facebook](https://www.facebook.com)
 * [Twitter](https://www.twitter.com)
@@ -25,7 +25,7 @@ This project contains 6 different packages for 5 different social media channels
 * LinkedIn: EPiServer feed block
 * LinkedIn: get X feed by company id
 * YouTube: get X feed by channel id
- 
+
 ## Installation
 Available through Geta's NuGet feed:
 - Geta.SocialChannels
@@ -65,7 +65,7 @@ Install-Package Geta.SocialChannels.Instagram
 
  Step 1. Go to your app (https://developers.facebook.com/apps )
  Step 2. Click to view detail
- 
+
 
 2.	To find Page ID:
 
@@ -152,7 +152,7 @@ public class GetTweetsRequest
 }
 ```
 
-```csharp	
+```csharp
 public class GetTweetsResponse
 {
 	public bool Success { get; set; }
@@ -162,7 +162,7 @@ public class GetTweetsResponse
 	public List<TweetItemModel> Tweets { get; set; }
 }
 ```
-	
+
 ```csharp
 public class TweetItemModel
 {
@@ -222,7 +222,7 @@ public class GetYoutubeFeedRequest
 
 public class GetYoutubeFeedResponse
 {
-	 public List<YoutubeDetailModel> Data { get; set; } 
+	 public List<YoutubeDetailModel> Data { get; set; }
 }
 
 public class YoutubeDetailModel
@@ -474,9 +474,18 @@ var postsByUser = instagramService.GetPostsByUser(new GetPostsRequest { Query = 
 var postsByTag = instagramService.GetPostsByTag(new GetPostsRequest { Query = "development", MaxCount = 10 });
 ```
 
+## Local development setup
+
+See description in [shared repository](https://github.com/Geta/package-shared/blob/master/README.md#local-development-set-up) regarding how to setup local development environment.
+
+### Docker hostnames
+
+Instead of using the static IP addresses the following hostnames can be used out-of-the-box.
+
+- http://socialchannels.getalocaltest.me
+
 ## Package maintainer
 https://github.com/frederikvig
 
 ## Changelog
 [Changelog](CHANGELOG.md)
-
