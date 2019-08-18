@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4]
+
+### Changed
+- Cryptography.Xml package updated to version=4.5.0
+
 ## [1.0.3]
 
 ### Changed
