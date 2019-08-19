@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  geta-socialchannels-sample:
+    image: ${DOCKER_REGISTRY-}geta-socialchannels-sample
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      geta-socialchannels-network:
+        ipv4_address: 172.16.238.21
+    depends_on:
+     - geta-socialchannels-db
+    volumes: 
+      - ../../src/:C:/data/
+    mac_address: 84-69-95-6C-7F-85
+  geta-socialchannels-db:
+    image: microsoft/mssql-server-windows-developer:1709
+    environment:
+     - ACCEPT_EULA=Y
+     - sa_password=Ch@nnel!23
+     - attach_dbs=[{'dbName':'EPiServerDB_3c11f6b9','dbFiles':['C:\\data\\EPiServerDB_3c11f6b9.mdf','C:\\data\\EPiServerDB_3c11f6b9_log.ldf']}]
+    volumes:
+      - ../Geta.SocialChannels.Sample/App_Data:C:/data/
+    networks:
+      geta-socialchannels-network:
+        ipv4_address: 172.16.238.22
+networks:
+  geta-socialchannels-network:
+    ipam:
+      driver: default
+      config:
+         - subnet: '172.16.238.0/24'
