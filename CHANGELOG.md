@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.6]
+
+### Changed
+- Fix applied for changing quantity on social block
+
 ## [1.0.5]
 
 ### Changed
