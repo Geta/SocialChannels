@@ -72,7 +72,7 @@ namespace Geta.SocialChannels.Instagram
                 return null;
             }
 
-            var instagramUserCacheKey = $"instagram_user_{request.Query}";
+            var instagramUserCacheKey = $"instagram_user_{request.Query}_{request.MaxCount}";
             if (_useCache && _cache.Exists(instagramUserCacheKey))
             {
                 return _cache.Get<InstagramResponse>(instagramUserCacheKey);
