@@ -485,7 +485,7 @@ Instead of using the static IP addresses the following hostnames can be used out
 - http://socialchannels.getalocaltest.me
 
 ## Package maintainer
-https://github.com/frederikvig
+https://github.com/m-kovacina
 
 ## Changelog
 [Changelog](CHANGELOG.md)
