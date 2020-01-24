@@ -40,15 +40,6 @@
             }
         }
 
-        @if (Model.ShowLinkedInFeed)
-        {
-            <h3>LinkedIn channel feed - @Model.LinkedInResponse.Result.Values.Count items found</h3>
-            foreach (var companyFeedItem in Model.LinkedInResponse.Result.Values)
-            {
-                <div>@companyFeedItem.UpdateContent.CompanyStatusUpdate.Share.Comment</div>
-            }
-        }
-
         @if (Model.ShowInstagramFeed)
         {
             <h3>Instagram channel feed - @Model.InstagramResponse.Data.Length items found</h3>

@@ -9,7 +9,6 @@ This project contains 6 different packages for 5 different social media channels
 
 * [Facebook](https://www.facebook.com)
 * [Twitter](https://www.twitter.com)
-* [LinkedIn](https://www.linkedin.com)
 * [YouTube](https://www.youtube.com)
 * [Instagram](https://www.instagram.com)
 
@@ -22,8 +21,6 @@ This project contains 6 different packages for 5 different social media channels
 * Instagram: get X posts by self
 * Instagram: get X posts by username
 * Instagram: get X posts by tag
-* LinkedIn: EPiServer feed block
-* LinkedIn: get X feed by company id
 * YouTube: get X feed by channel id
 
 ## Installation
@@ -31,7 +28,6 @@ Available through Geta's NuGet feed:
 - Geta.SocialChannels
 - Geta.SocialChannels.Facebook
 - Geta.SocialChannels.Twitter
-- Geta.SocialChannels.LinkedIn
 - Geta.SocialChannels.YouTube
 - Geta.SocialChannels.Instagram
 
@@ -43,11 +39,6 @@ Install-Package Geta.SocialChannels.Facebook
 To install Twitter
 ```
 Install-Package Geta.SocialChannels.Twitter
-```
-
-To install LinkedIn
-```
-Install-Package Geta.SocialChannels.LinkedIn
 ```
 
 To install YouTube

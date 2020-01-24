@@ -368,10 +368,6 @@
       <Project>{47aca00d-fb9d-436c-9075-64544b813a00}</Project>
       <Name>Geta.SocialChannels.Instagram</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Geta.SocialChannels.LinkedIn\Geta.SocialChannels.LinkedIn.csproj">
-      <Project>{14f02947-e543-46db-9fca-dee142411b73}</Project>
-      <Name>Geta.SocialChannels.LinkedIn</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Geta.SocialChannels.Twitter\Geta.SocialChannels.Twitter.csproj">
       <Project>{ba71ea63-833d-4c65-a950-baf82627202f}</Project>
       <Name>Geta.SocialChannels.Twitter</Name>
