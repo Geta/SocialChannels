@@ -1,9 +1,10 @@
 ﻿namespace Geta.SocialChannels.Sample.Models.Pages
 {
     /// <summary>
-    /// Used for the pages to present feeds with Geta Social Channels 
+    /// Used for the pages to present feeds with Geta Social Channels package.
     /// </summary>
-    [SiteContentType(GUID = "417B5756-E112-4625-BEEE-377FF519D1FB")]
+    [SiteContentType(GUID = "417B5756-E112-4625-BEEE-377FF519D1FB",
+        Description = "Basic page type for social channel integrations.")]
     [SiteImageUrl(Global.StaticGraphicsFolderPath + "page-type-thumbnail-article.png")]
     public class GetaSocialChannelsPage : SitePageData
     {
@@ -22,14 +23,6 @@
         public virtual string TwitterSecretKey { get; set; }
 
         public virtual string TwitterUserName { get; set; }
-
-        public virtual string LinkedInBlockFeedId { get; set; }
-
-        public virtual string LinkedInClientId { get; set; }
-
-        public virtual string LinkedInClientSecret { get; set; }
-
-        public virtual int LinkedInCompanyId { get; set; }
 
         public virtual string InstagramAccessToken { get; set; }
 
