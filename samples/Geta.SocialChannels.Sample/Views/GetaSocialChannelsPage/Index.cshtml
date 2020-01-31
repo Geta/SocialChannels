@@ -42,27 +42,19 @@
 
         @if (Model.ShowInstagramFeed)
         {
-            <h3>Instagram channel feed - @Model.InstagramResponse.Data.Length items found</h3>
-            foreach (var instagramFeedItem in Model.InstagramResponse.Data)
+            <h3>Instagram business account's media - @Model.InstagramResponse.Count object(s) found</h3>
+            foreach (var instagramFeedItem in Model.InstagramResponse)
             {
-                <a href="@instagramFeedItem.Link"> @instagramFeedItem.User.FullName</a>
+                <a href="@instagramFeedItem.MediaUrl"> @instagramFeedItem.MediaUrl</a>
             }
         }
-        
-        @if (Model.ShowInstagramByUserFeed)
-        {
-            <h3>Instagram by User channel feed - @Model.InstagramByUserResponse.Data.Length items found</h3>
-            foreach (var instagramByUserFeedItem in Model.InstagramByUserResponse.Data)
-            {
-                <a href="@instagramByUserFeedItem.Link"> @instagramByUserFeedItem.User.FullName</a>
-            }
-        }
+
         @if (Model.ShowInstagramByTagFeed)
         {
-            <h3>Instagram by tag channel feed - @Model.InstagramByTagResponse.Data.Length items found</h3>
-            foreach (var instagramByTagFeedItem in Model.InstagramByTagResponse.Data)
+            <h3>Instagram hashtag recent media - @Model.InstagramByTagResponse.Count object(s) found</h3>
+            foreach (var instagramByTagFeedItem in Model.InstagramByTagResponse)
             {
-                <a href="@instagramByTagFeedItem.Link"> @instagramByTagFeedItem.User.FullName</a>
+                <a href="@instagramByTagFeedItem.MediaUrl"> @instagramByTagFeedItem.MediaUrl</a>
             }
         }
 

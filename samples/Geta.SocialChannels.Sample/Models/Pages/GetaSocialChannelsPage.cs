@@ -26,8 +26,6 @@
 
         public virtual string InstagramAccessToken { get; set; }
 
-        public virtual string InstagramPostsByUser { get; set; }
-
-        public virtual string InstagramPostsByTag { get; set; }
+        public virtual string InstagramBusinessAccountId { get; set; }
     }
 }

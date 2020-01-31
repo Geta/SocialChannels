@@ -1,8 +1,8 @@
-﻿using Geta.SocialChannels.Facebook;
+﻿using System.Collections.Generic;
+using Geta.SocialChannels.Facebook;
 using Geta.SocialChannels.Sample.Models.Pages;
 using Geta.SocialChannels.Twitter;
 using Geta.SocialChannels.YouTube;
-using Geta.SocialChannels.Instagram;
 
 namespace Geta.SocialChannels.Sample.Models.ViewModels
 {
@@ -18,11 +18,9 @@ namespace Geta.SocialChannels.Sample.Models.ViewModels
 
         public GetTweetsResponse TwitterResponse { get; set; }
 
-        public InstagramResponse InstagramResponse { get; set; }
+        public List<Instagram.Entities.Media> InstagramResponse { get; set; }
 
-        public InstagramResponse InstagramByUserResponse { get; set; }
-
-        public InstagramResponse InstagramByTagResponse { get; set; }
+        public List<Instagram.Entities.Media> InstagramByTagResponse { get; set; }
 
         public bool ShowYoutubeFeed => YoutubeFeed?.Data != null;
 
@@ -30,10 +28,8 @@ namespace Geta.SocialChannels.Sample.Models.ViewModels
 
         public bool ShowTwitterFeed => TwitterResponse?.Success == true;
 
-        public bool ShowInstagramFeed => InstagramResponse?.Data != null;
+        public bool ShowInstagramFeed => InstagramResponse != null;
 
-        public bool ShowInstagramByUserFeed => InstagramByUserResponse?.Data != null;
-
-        public bool ShowInstagramByTagFeed => InstagramByTagResponse?.Data != null;
+        public bool ShowInstagramByTagFeed => InstagramByTagResponse != null;
     }
 }
