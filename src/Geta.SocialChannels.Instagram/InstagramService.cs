@@ -54,16 +54,16 @@ namespace Geta.SocialChannels.Instagram
             {
                 var instagramResults = DoMediaSearch();
                 var mediaModels = new List<Media>();
-                foreach (var mediaData in instagramResults.media.data)
+                foreach (var mediaData in instagramResults.Media.Data)
                 {
                     var media = new Media
                     {
-                        Id = mediaData.id,
-                        LikeCount = mediaData.like_count,
-                        CommentsCount = mediaData.comments_count,
-                        MediaUrl = mediaData.media_url,
-                        Permalink = mediaData.permalink,
-                        Timestamp = mediaData.timestamp
+                        Id = mediaData.Id,
+                        LikeCount = mediaData.LikeCount,
+                        CommentsCount = mediaData.CommentsCount,
+                        MediaUrl = mediaData.MediaUrl,
+                        Permalink = mediaData.Permalink,
+                        Timestamp = mediaData.Timestamp
                     };
 
                     mediaModels.Add(media);
@@ -99,15 +99,15 @@ namespace Geta.SocialChannels.Instagram
             try
             {
                 var hashtagSearchResult = GetHashtagId(tag);
-                var instagramResults = DoMediaSearchByHashtag(hashtagSearchResult.data);
+                var instagramResults = DoMediaSearchByHashtag(hashtagSearchResult.Data);
                 var response = instagramResults.Select(mediaData => new Media
                 {
-                    Id = mediaData.id,
-                    LikeCount = mediaData.like_count,
-                    CommentsCount = mediaData.comments_count,
-                    MediaUrl = mediaData.media_url,
-                    Permalink = mediaData.permalink,
-                    Timestamp = mediaData.timestamp
+                    Id = mediaData.Id,
+                    LikeCount = mediaData.LikeCount,
+                    CommentsCount = mediaData.CommentsCount,
+                    MediaUrl = mediaData.MediaUrl,
+                    Permalink = mediaData.Permalink,
+                    Timestamp = mediaData.Timestamp
                 }).ToList();
 
                 if (_useCache)
@@ -139,7 +139,7 @@ namespace Geta.SocialChannels.Instagram
             var mediaSearchUrl = BaseUrl + mediaFields + "&access_token=" + _token;
             var jsonResult = HttpUtils.Get(mediaSearchUrl);
             var instagramResult = JsonConvert.DeserializeObject<InstagramResult>(jsonResult);
-            return instagramResult?.media != null ? instagramResult : null;
+            return instagramResult?.Media != null ? instagramResult : null;
         }
 
         /// <summary>
@@ -153,14 +153,14 @@ namespace Geta.SocialChannels.Instagram
             foreach (var hashtagId in hashtagIds)
             {
                 var mediaSearchUrl = BaseUrl +
-                                     $"{hashtagId.id}/recent_media?user_id={_accountId}&fields=id%2Cmedia_type%2Ccomments_count%2Clike_count%2Cmedia_url&access_token=" +
+                                     $"{hashtagId.Id}/recent_media?user_id={_accountId}&fields=id%2Cmedia_type%2Ccomments_count%2Clike_count%2Cmedia_url&access_token=" +
                                      _token;
 
                 var jsonResult = HttpUtils.Get(mediaSearchUrl);
                 var instagramResult = JsonConvert.DeserializeObject<DTO.Media>(jsonResult);
-                if (instagramResult?.data != null)
+                if (instagramResult?.Data != null)
                 {
-                    result.AddRange(instagramResult.data);
+                    result.AddRange(instagramResult.Data);
                 }
             }
 
@@ -178,7 +178,7 @@ namespace Geta.SocialChannels.Instagram
             var jsonResult = HttpUtils.Get(mediaSearchUrl);
 
             var instagramResult = JsonConvert.DeserializeObject<HashtagSearchResult>(jsonResult);
-            return instagramResult?.data != null ? instagramResult : null;
+            return instagramResult?.Data != null ? instagramResult : null;
         }
 
         #endregion

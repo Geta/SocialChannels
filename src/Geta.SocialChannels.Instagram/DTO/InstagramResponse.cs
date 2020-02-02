@@ -10,104 +10,104 @@ namespace Geta.SocialChannels.Instagram.DTO
     public class CommentData
     {
         [JsonProperty("text")]
-        public string text { get; set; }
+        public string Text { get; set; }
 
         [JsonProperty("id")]
-        public string id { get; set; }
+        public string Id { get; set; }
     }
 
     public class Cursors
     {
         [JsonProperty("after")]
-        public string after { get; set; }
+        public string After { get; set; }
     }
 
     public class Paging
     {
         [JsonProperty("cursors")]
-        public Cursors cursors { get; set; }
+        public Cursors Cursors { get; set; }
 
         [JsonProperty("next")]
-        public string next { get; set; }
+        public string Next { get; set; }
 
         public Paging()
         {
-            this.cursors = new Cursors();
+            Cursors = new Cursors();
         }
     }
 
     public class Comments
     {
         [JsonProperty("data")]
-        public List<CommentData> data { get; set; }
+        public List<CommentData> Data { get; set; }
 
         [JsonProperty("paging")]
-        public Paging paging { get; set; }
+        public Paging Paging { get; set; }
 
         public Comments()
         {
-            this.paging = new Paging();
-            this.data = new List<CommentData>();
+            Paging = new Paging();
+            Data = new List<CommentData>();
         }
     }
 
     public class MediaData
     {
         [JsonProperty("caption")]
-        public string caption { get; set; }
+        public string Caption { get; set; }
 
         [JsonProperty("media_url")]
-        public string media_url { get; set; }
+        public string MediaUrl { get; set; }
 
         [JsonProperty("media_type")]
-        public string media_type { get; set; }
+        public string MediaType { get; set; }
 
         [JsonProperty("comments_count")]
-        public int comments_count { get; set; }
+        public int CommentsCount { get; set; }
 
         [JsonProperty("like_count")]
-        public int like_count { get; set; }
+        public int LikeCount { get; set; }
 
         [JsonProperty("permalink")]
-        public string permalink { get; set; }
+        public string Permalink { get; set; }
 
         [JsonProperty("comments")]
-        public Comments comments { get; set; }
+        public Comments Comments { get; set; }
 
         [JsonProperty("id")]
-        public string id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("timestamp")]
-        public DateTime timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 
     public class Media
     {
         [JsonProperty("data")]
-        public List<MediaData> data { get; set; }
+        public List<MediaData> Data { get; set; }
 
         [JsonProperty("paging")]
-        public Paging paging { get; set; }
+        public Paging Paging { get; set; }
 
         public Media()
         {
-            this.data = new List<MediaData>();
-            this.paging = new Paging();
+            Data = new List<MediaData>();
+            Paging = new Paging();
         }
     }
 
     public class HashtagSearchResult
     {
         [JsonProperty("data")]
-        public List<MediaData> data { get; set; }
+        public List<MediaData> Data { get; set; }
     }
 
     public class InstagramResult
     {
         [JsonProperty("media")]
-        public Media media { get; set; }
+        public Media Media { get; set; }
 
         [JsonProperty("id")]
-        public string id { get; set; }
+        public string Id { get; set; }
     }
 }
