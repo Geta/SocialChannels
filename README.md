@@ -18,9 +18,8 @@ This project contains 6 different packages for 5 different social media channels
 * Facebook: get Facebook account information by username
 * Facebook: get X posts by username
 * Twitter: get X tweets by username
-* Instagram: get X posts by self
-* Instagram: get X posts by username
-* Instagram: get X posts by tag
+* Instagram: get posts by your Instagram Business Account
+* Instagram: get recent posts by hashtag
 * YouTube: get X feed by channel id
 
 ## Installation
@@ -326,143 +325,128 @@ var feed = youTubeService.GetYoutubeFeed(new GetYoutubeFeedRequest{ ChannelId = 
 ```
 
 ## Instagram
-Gets the instagram posts of the user associated with the token, a different user, or from a hashtag.
-To retrieve the access token, see the documentation from Instagram: [https://www.instagram.com/developer/authentication/](https://www.instagram.com/developer/authentication/). Pro tip, simplest way is to just follow the client side instructions.
+Gets the instagram posts of the business account associated with the token, or from a hashtag.
+To retrieve the access token, see the documentation from Instagram: [https://developers.facebook.com/docs/facebook-login/access-tokens/](https://developers.facebook.com/docs/facebook-login/access-tokens/). Pro tip, simplest way is to just follow the client side instructions. See more here about Facebook Login [https://developers.facebook.com/docs/facebook-login/](https://developers.facebook.com/docs/facebook-login/).
 
 ```csharp
 public interface IInstagramService
 {
     void Config(bool useCache, int cacheDurationInMinutes);
-    InstagramResponse GetPostsBySelf(int maxCount);
-    InstagramResponse GetPostsByUser(GetPostsRequest request);
-    InstagramResponse GetPostsByTag(GetPostsRequest request);
+    List<Media> GetMedia();
+    List<Media> GetMediaByHashTag(string tag);
 }
 ```
 ```csharp
-public class GetPostsRequest
+public class CommentData
 {
-    public string Query { get; set; }
-    public int MaxCount { get; set; }
-}
-```
-```csharp
-public class InstagramResponse
-{
-    public Datum[] Data { get; set; }
-    public Pagination Page { get; set; }
+    [JsonProperty("text")]
+    public string text { get; set; }
+
+    [JsonProperty("id")]
+    public string id { get; set; }
 }
 
-public class Datum
+public class Cursors
 {
-    public object[] Tags { get; set; }
-    public double CreatedTime { get; set; }
-    public string Link { get; set; }
-    public Likes Likes { get; set; }
-    public Images Images { get; set; }
-    public Videos Videos { get; set; }
-    public Caption Caption { get; set; }
-    public User User { get; set; }
-    public string Id { get; set; }
+    [JsonProperty("after")]
+    public string after { get; set; }
 }
 
-public class Caption
+public class Paging
 {
-    public double CreatedTime { get; set; }
-    public string Text { get; set; }
-    public PostFrom From { get; set; }
-    public string Id { get; set; }
+    [JsonProperty("cursors")]
+    public Cursors cursors { get; set; }
+
+    [JsonProperty("next")]
+    public string next { get; set; }
+
+    public Paging()
+    {
+        this.cursors = new Cursors();
+    }
 }
 
-public class Images
+public class Comments
 {
-    public StandardResolutionImage Picture { get; set; }
-    public LowResolutionImage LowResPicture { get; set; }
-    public ThumbnailImage ThumbnailPicture { get; set; }
+    [JsonProperty("data")]
+    public List<CommentData> data { get; set; }
+
+    [JsonProperty("paging")]
+    public Paging paging { get; set; }
+
+    public Comments()
+    {
+        this.paging = new Paging();
+        this.data = new List<CommentData>();
+    }
 }
 
-public class Likes
+public class MediaData
 {
-    public int Count { get; set; }
+    [JsonProperty("caption")]
+    public string caption { get; set; }
+
+    [JsonProperty("media_url")]
+    public string media_url { get; set; }
+
+    [JsonProperty("media_type")]
+    public string media_type { get; set; }
+
+    [JsonProperty("comments_count")]
+    public int comments_count { get; set; }
+
+    [JsonProperty("like_count")]
+    public int like_count { get; set; }
+
+    [JsonProperty("permalink")]
+    public string permalink { get; set; }
+
+    [JsonProperty("comments")]
+    public Comments comments { get; set; }
+
+    [JsonProperty("id")]
+    public string id { get; set; }
+
+    [JsonProperty("timestamp")]
+    public DateTime timestamp { get; set; }
 }
 
-public class LowBandwidthVideo
+public class Media
 {
-    public string Url { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    [JsonProperty("data")]
+    public List<MediaData> data { get; set; }
+
+    [JsonProperty("paging")]
+    public Paging paging { get; set; }
+
+    public Media()
+    {
+        this.data = new List<MediaData>();
+        this.paging = new Paging();
+    }
 }
 
-public class LowResolutionImage
+public class HashtagSearchResult
 {
-    public string Url { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    [JsonProperty("data")]
+    public List<MediaData> data { get; set; }
 }
 
-public class LowResolutionVideo
+public class InstagramResult
 {
-    public string Url { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-}
+    [JsonProperty("media")]
+    public Media media { get; set; }
 
-public class Pagination
-{
-    public string NextUrl { get; set; }
-    public string NextMaxId { get; set; }
-}
-
-public class PostFrom
-{
-    public string UserName { get; set; }
-    public string ProfilePicture { get; set; }
-    public string Id { get; set; }
-    public string FullName { get; set; }
-}
-
-public class StandardResolutionImage
-{
-    public string Url { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-}
-
-public class StandardResolutionVideo
-{
-    public string Url { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-}
-
-public class ThumbnailImage
-{
-    public string Url { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-}
-
-public class User
-{
-    public string UserName { get; set; }
-    public string ProfilePicture { get; set; }
-    public string Id { get; set; }
-    public string FullName { get; set; }
-}
-
-public class Videos
-{
-    public LowResolutionVideo LowResVideo { get; set; }
-    public StandardResolutionVideo StandardResVideo { get; set; }
-    public LowBandwidthVideo LowBandwidthVideo { get; set; }
+    [JsonProperty("id")]
+    public string id { get; set; }
 }
 ```
 ### Examples
 ```csharp
-var instagramService = new InstagramService(new Cache(), "instagramAccessToken");
+var instagramService = new InstagramService(new Cache(), "instagramAccessToken", "InstagramBusinessAccountId");
 
-var postsBySelf = instagramService.GetPostsBySelf(10);
-var postsByUser = instagramService.GetPostsByUser(new GetPostsRequest { Query = "geta", MaxCount = 10 });
-var postsByTag = instagramService.GetPostsByTag(new GetPostsRequest { Query = "development", MaxCount = 10 });
+var postsBySelf = instagramService.GetMedia();
+var postsByTag = instagramService.GetMediaByHashTag("geta");
 ```
 
 ## Local development setup
