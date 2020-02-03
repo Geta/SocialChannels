@@ -155,9 +155,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetPostsRequest.cs" />
-    <Compile Include="IInstagramService.cs" />
-    <Compile Include="InstagramResponse.cs" />
+    <Compile Include="DTO\InstagramResponse.cs" />
+    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\Media.cs" />
+    <Compile Include="Abstract\IInstagramService.cs" />
     <Compile Include="InstagramService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -171,6 +172,7 @@
       <Name>Geta.SocialChannels</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

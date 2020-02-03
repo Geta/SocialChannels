@@ -23,17 +23,18 @@ namespace Geta.SocialChannels.Sample.Controllers
             var twitterService = new TwitterService(new Cache(), currentPage.TwitterConsumerKey, currentPage.TwitterSecretKey);
             var tweets = twitterService.GetTweets(new GetTweetsRequest {UserName = currentPage.TwitterUserName});
 
-            var instagramService = new InstagramService(new Cache(), currentPage.InstagramAccessToken);
-            var postsBySelf = instagramService.GetPostsBySelf(10);
-            var postsByUser = instagramService.GetPostsByUser(new GetPostsRequest { Query = currentPage.InstagramPostsByUser, MaxCount = 10 });
-            var postsByTag = instagramService.GetPostsByTag(new GetPostsRequest { Query = currentPage.InstagramPostsByTag, MaxCount = 10 });
+            var instagramService = new InstagramService(new Cache(), currentPage.InstagramAccessToken,
+                currentPage.InstagramBusinessAccountId);
+
+            var media = instagramService.GetMedia();
+            var mediaByHashTag = instagramService.GetMediaByHashTag("spring");
 
             model.YoutubeFeed = youtubeFeed;
             model.FacebookFeed = facebookFeed;
             model.TwitterResponse = tweets;
-            model.InstagramResponse = postsBySelf;
-            model.InstagramResponse = postsByUser;
-            model.InstagramResponse = postsByTag;
+            
+            model.InstagramResponse = media;
+            model.InstagramByTagResponse = mediaByHashTag;
 
             return View(model);
         }
