@@ -12,6 +12,7 @@ namespace Geta.SocialChannels.Instagram.Entities
     {
         public string Id { get; set; }
         public string MediaUrl { get; set; }
+        public string MediaType { get; set; }
         public int CommentsCount { get; set; }
         public int LikeCount { get; set; }
         public string Permalink { get; set; }

@@ -81,21 +81,6 @@ namespace Geta.SocialChannels.Instagram.DTO
         public DateTime Timestamp { get; set; }
     }
 
-    public class Media
-    {
-        [JsonProperty("data")]
-        public List<MediaData> Data { get; set; }
-
-        [JsonProperty("paging")]
-        public Paging Paging { get; set; }
-
-        public Media()
-        {
-            Data = new List<MediaData>();
-            Paging = new Paging();
-        }
-    }
-
     public class HashtagSearchResult
     {
         [JsonProperty("data")]
@@ -104,10 +89,16 @@ namespace Geta.SocialChannels.Instagram.DTO
 
     public class InstagramResult
     {
-        [JsonProperty("media")]
-        public Media Media { get; set; }
+        [JsonProperty("data")]
+        public List<MediaData> Data { get; set; }
 
-        [JsonProperty("id")]
-        public string Id { get; set; }
+        [JsonProperty("paging")]
+        public Paging Paging { get; set; }
+
+        public InstagramResult()
+        {
+            Data = new List<MediaData>();
+            Paging = new Paging();
+        }
     }
 }
