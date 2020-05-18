@@ -14,7 +14,7 @@ namespace Geta.SocialChannels.Instagram
     [ServiceConfiguration(typeof(IInstagramService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class InstagramService: IInstagramService
     {
-        private const string BaseUrl = "https://graph.facebook.com/v5.0/";
+        private const string BaseUrl = "https://graph.facebook.com/v6.0/";
 
         private static readonly ILog Logger = LogManager.GetLogger(typeof(InstagramService));
         private readonly ICache _cache;
@@ -53,8 +53,9 @@ namespace Geta.SocialChannels.Instagram
             try
             {
                 var instagramResults = DoMediaSearch();
-                var mediaModels = new List<Media>();
-                foreach (var mediaData in instagramResults.Media.Data)
+                var mediaModels = new List<Media>(instagramResults.Data.Count);
+
+                foreach (var mediaData in instagramResults.Data)
                 {
                     var media = new Media
                     {
@@ -62,6 +63,7 @@ namespace Geta.SocialChannels.Instagram
                         LikeCount = mediaData.LikeCount,
                         CommentsCount = mediaData.CommentsCount,
                         MediaUrl = mediaData.MediaUrl,
+                        MediaType = mediaData.MediaType,
                         Permalink = mediaData.Permalink,
                         Timestamp = mediaData.Timestamp
                     };
@@ -79,7 +81,7 @@ namespace Geta.SocialChannels.Instagram
             catch (Exception ex)
             {
                 Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-                return null;
+                return new List<Media>(0);
             }
         }
 
@@ -106,6 +108,7 @@ namespace Geta.SocialChannels.Instagram
                     LikeCount = mediaData.LikeCount,
                     CommentsCount = mediaData.CommentsCount,
                     MediaUrl = mediaData.MediaUrl,
+                    MediaType = mediaData.MediaType,
                     Permalink = mediaData.Permalink,
                     Timestamp = mediaData.Timestamp
                 }).ToList();
@@ -120,7 +123,7 @@ namespace Geta.SocialChannels.Instagram
             catch (Exception ex)
             {
                 Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-                return null;
+                return new List<Media>(0);
             }
         }
 
@@ -135,11 +138,11 @@ namespace Geta.SocialChannels.Instagram
         private InstagramResult DoMediaSearch()
         {
             var mediaFields =
-                $"{_accountId}?fields=media%7Bmedia_url%2Cmedia_type%2Ccomments_count%2Clike_count%2Ctimestamp%2Cpermalink%2Ccaption%7D";
+                $"{_accountId}/media?fields=media_url%2Cmedia_type%2Clike_count%2Ccomments_count%2Ctimestamp%2Cpermalink";
             var mediaSearchUrl = BaseUrl + mediaFields + "&access_token=" + _token;
             var jsonResult = HttpUtils.Get(mediaSearchUrl);
             var instagramResult = JsonConvert.DeserializeObject<InstagramResult>(jsonResult);
-            return instagramResult?.Media != null ? instagramResult : null;
+            return instagramResult?.Data != null ? instagramResult : null;
         }
 
         /// <summary>
@@ -157,7 +160,7 @@ namespace Geta.SocialChannels.Instagram
                                      _token;
 
                 var jsonResult = HttpUtils.Get(mediaSearchUrl);
-                var instagramResult = JsonConvert.DeserializeObject<DTO.Media>(jsonResult);
+                var instagramResult = JsonConvert.DeserializeObject<InstagramResult>(jsonResult);
                 if (instagramResult?.Data != null)
                 {
                     result.AddRange(instagramResult.Data);
