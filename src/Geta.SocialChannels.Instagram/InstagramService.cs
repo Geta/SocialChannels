@@ -14,7 +14,7 @@ namespace Geta.SocialChannels.Instagram
     [ServiceConfiguration(typeof(IInstagramService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class InstagramService: IInstagramService
     {
-        private const string BaseUrl = "https://graph.facebook.com/v6.0/";
+        private const string BaseUrl = "https://graph.facebook.com/v7.0/";
 
         private static readonly ILog Logger = LogManager.GetLogger(typeof(InstagramService));
         private readonly ICache _cache;
@@ -156,7 +156,7 @@ namespace Geta.SocialChannels.Instagram
             foreach (var hashtagId in hashtagIds)
             {
                 var mediaSearchUrl = BaseUrl +
-                                     $"{hashtagId.Id}/recent_media?user_id={_accountId}&fields=id%2Cmedia_type%2Ccomments_count%2Clike_count%2Cmedia_url&access_token=" +
+                                     $"{hashtagId.Id}/recent_media?user_id={_accountId}&fields=id%2Cmedia_type%2Ccomments_count%2Clike_count%2Cmedia_url%2Ctimestamp&access_token=" +
                                      _token;
 
                 var jsonResult = HttpUtils.Get(mediaSearchUrl);
