@@ -17,12 +17,12 @@ namespace Geta.SocialChannels.YouTube
 
         private readonly string _youtubeKey;
 
-        private bool _useCache = true;
+        private bool _useCache = false;
         private int _cacheDurationInMinutes = 10;
 
         private readonly ICache _cache;
 
-        public YoutubeService(ICache cache, string youtubeKey)
+        public YoutubeService(string youtubeKey, ICache cache)
         {
             this._cache = cache;
             this._youtubeKey = youtubeKey;
@@ -43,7 +43,7 @@ namespace Geta.SocialChannels.YouTube
 
             var key = $"youtube_cache_{getYoutubeFeedRequest.MaxCount}_{getYoutubeFeedRequest.ChannelId}";
 
-            if (_cache.Exists(key) && _useCache)
+            if (_useCache && _cache.Exists(key))
             {
                 return _cache.Get<GetYoutubeFeedResponse>(key);
             }

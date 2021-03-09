@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\src\Geta.SocialChannels.Instagram\Geta.SocialChannels.Instagram.csproj" />
+      <ProjectReference Include="..\src\Geta.SocialChannels.YouTube\Geta.SocialChannels.YouTube.csproj" />
     </ItemGroup>
 
 </Project>
