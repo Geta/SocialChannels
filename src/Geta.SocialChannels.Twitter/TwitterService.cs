@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Geta.SocialChannels.Twitter.DTO;
 using Newtonsoft.Json;
@@ -32,13 +33,13 @@ namespace Geta.SocialChannels.Twitter
         /// <summary>
         /// Gets tweets for specified username
         /// </summary>
-        public GetTweetsResponse GetTweets(GetTweetsRequest getTweetsRequest)
+        public List<TweetItemModel> GetTweets(GetTweetsRequest getTweetsRequest)
         {
             var key = $"tweet_items_{getTweetsRequest.MaxCount}_{getTweetsRequest.UserName}";
 
             if (_useCache && _cache.Exists(key))
             {
-                return _cache.Get<GetTweetsResponse>(key);
+                return _cache.Get<List<TweetItemModel>>(key);
             }
             
             try
@@ -56,27 +57,17 @@ namespace Geta.SocialChannels.Twitter
                     CreatedDate = s.CreatedAt,
                     Link = GetTweetLink(s.Id, getUsernameResponse.User.Username)
                 }).ToList();
-                
-                var response = new GetTweetsResponse
-                {
-                    Success = true,
-                    Tweets = tweets
-                };
 
                 if (_useCache && tweets.Any())
                 {
-                    _cache.Add(key, response, new TimeSpan(0, _cacheDurationInMinutes, 0));
+                    _cache.Add(key, tweets, new TimeSpan(0, _cacheDurationInMinutes, 0));
                 }
 
-                return response;
+                return tweets;
             }
             catch (Exception e)
             {
-                return new GetTweetsResponse
-                {
-                    Success = false,
-                    ErrorMessage = $"Error: {e.Message} Stacktrace: {e.StackTrace}"
-                };
+                throw new TwitterServiceException(e.Message, e);
             }
         }
 

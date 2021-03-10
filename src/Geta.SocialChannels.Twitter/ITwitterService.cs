@@ -1,4 +1,5 @@
-﻿using Geta.SocialChannels.Twitter.DTO;
+﻿using System.Collections.Generic;
+using Geta.SocialChannels.Twitter.DTO;
 
 namespace Geta.SocialChannels.Twitter
 {
@@ -6,6 +7,6 @@ namespace Geta.SocialChannels.Twitter
     {
         void Config(bool useCache, int cacheDurationInMinutes);
 
-        GetTweetsResponse GetTweets(GetTweetsRequest getTweetsRequest);
+        List<TweetItemModel> GetTweets(GetTweetsRequest getTweetsRequest);
     }
 }
