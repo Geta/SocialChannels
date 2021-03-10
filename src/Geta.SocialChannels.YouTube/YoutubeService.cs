@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace Geta.SocialChannels.YouTube
 {
@@ -17,23 +18,27 @@ namespace Geta.SocialChannels.YouTube
 
         private readonly string _youtubeKey;
 
-        private bool _useCache = true;
+        private bool _useCache;
         private int _cacheDurationInMinutes = 10;
 
         private readonly ICache _cache;
 
-        public YoutubeService(ICache cache, string youtubeKey)
+        public YoutubeService(string youtubeKey, ICache cache)
         {
-            this._cache = cache;
-            this._youtubeKey = youtubeKey;
+            _cache = cache;
+            _youtubeKey = youtubeKey;
+            _useCache = cache != null;
         }
 
         public void Config(bool useCache, int cacheDurationInMinutes)
         {
-            this._useCache = useCache;
-            this._cacheDurationInMinutes = cacheDurationInMinutes;
+            _useCache = useCache;
+            _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
+        /// <summary>
+        /// Gets YouTube feed for specified channelId
+        /// </summary>
         public GetYoutubeFeedResponse GetYoutubeFeed(GetYoutubeFeedRequest getYoutubeFeedRequest)
         {
             if (string.IsNullOrEmpty(this._youtubeKey) || string.IsNullOrEmpty(getYoutubeFeedRequest.ChannelId))
@@ -43,21 +48,39 @@ namespace Geta.SocialChannels.YouTube
 
             var key = $"youtube_cache_{getYoutubeFeedRequest.MaxCount}_{getYoutubeFeedRequest.ChannelId}";
 
-            if (_cache.Exists(key) && _useCache)
+            if (_useCache && _cache.Exists(key))
             {
                 return _cache.Get<GetYoutubeFeedResponse>(key);
             }
 
-            var c = new WebClient();
-            c.Encoding = System.Text.Encoding.UTF8;
+            try
+            {
+                var c = new WebClient {Encoding = System.Text.Encoding.UTF8};
 
-            var youtubeChannelUrl =
-                string.Format(YoutubeChannelUrl, this._youtubeKey, getYoutubeFeedRequest.ChannelId, getYoutubeFeedRequest.MaxCount);
-            var objData = c.DownloadString(youtubeChannelUrl);
+                var youtubeChannelUrl =
+                    string.Format(YoutubeChannelUrl, _youtubeKey, getYoutubeFeedRequest.ChannelId, getYoutubeFeedRequest.MaxCount);
+                var objData = c.DownloadString(youtubeChannelUrl);
 
-            var youtubeModel = Newtonsoft.Json.JsonConvert.DeserializeObject<YoutubeModel.RootObject>(objData);
+                var youtubeModel = JsonConvert.DeserializeObject<YoutubeModel.RootObject>(objData);
+                var youtubeDetails = CreateYoutubeDetailModels(youtubeModel, c);
 
+                var getYoutubeFeedResponse = new GetYoutubeFeedResponse {Data = youtubeDetails};
 
+                if (_useCache)
+                {
+                    _cache.Add(key, getYoutubeFeedResponse, new TimeSpan(0, _cacheDurationInMinutes, 0));
+                }
+
+                return getYoutubeFeedResponse;
+            }
+            catch (Exception e)
+            {
+                throw new YouTubeServiceException(e.Message, e);
+            }
+        }
+
+        private List<YoutubeDetailModel> CreateYoutubeDetailModels(YoutubeModel.RootObject youtubeModel, WebClient c)
+        {
             var youtubeDetails = new List<YoutubeDetailModel>();
 
             foreach (var item in youtubeModel.Items)
@@ -79,6 +102,7 @@ namespace Geta.SocialChannels.YouTube
                     ImageUrl = item.Snippet.Thumbnails.Default.Url,
                     ViewCount = youtubeItemModel.Items[0].Statistics.ViewCount,
                     LikeCount = youtubeItemModel.Items[0].Statistics.LikeCount,
+                    DislikeCount = youtubeItemModel.Items[0].Statistics.DislikeCount,
                     FavoriteCount = youtubeItemModel.Items[0].Statistics.FavoriteCount,
                     PublishDate = item.Snippet.PublishedAt,
                     Title = !string.IsNullOrEmpty(item.Snippet.Title) ? item.Snippet.Title : "",
@@ -88,14 +112,7 @@ namespace Geta.SocialChannels.YouTube
                 youtubeDetails.Add(youtubeDetail);
             }
 
-            var getYoutubeFeedResponse = new GetYoutubeFeedResponse {Data = youtubeDetails};
-
-            if (_useCache)
-            {
-                _cache.Add(key, getYoutubeFeedResponse, new TimeSpan(0, _cacheDurationInMinutes, 0));
-            }
-
-            return getYoutubeFeedResponse;
+            return youtubeDetails;
         }
     }
 }

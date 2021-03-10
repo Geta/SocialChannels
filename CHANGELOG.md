@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0]
+
+### Changed
+- Migration to netstadard2.0
+- Removes Facebook and LinkedIn integration (will be added when testing app is approved)
+- Update Geta.SocialChannels.Twitter to use v2 api
+- Update Geta.SocialChannels.Instagram to use v10.0 graph api
+
 ## [1.1.0]
 
 ### Changed
