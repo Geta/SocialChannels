@@ -35,6 +35,9 @@ namespace Geta.SocialChannels.YouTube
             _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
+        /// <summary>
+        /// Gets YouTube feed for specified channelId
+        /// </summary>
         public GetYoutubeFeedResponse GetYoutubeFeed(GetYoutubeFeedRequest getYoutubeFeedRequest)
         {
             if (string.IsNullOrEmpty(this._youtubeKey) || string.IsNullOrEmpty(getYoutubeFeedRequest.ChannelId))
@@ -80,6 +83,7 @@ namespace Geta.SocialChannels.YouTube
                     ImageUrl = item.Snippet.Thumbnails.Default.Url,
                     ViewCount = youtubeItemModel.Items[0].Statistics.ViewCount,
                     LikeCount = youtubeItemModel.Items[0].Statistics.LikeCount,
+                    DislikeCount = youtubeItemModel.Items[0].Statistics.DislikeCount,
                     FavoriteCount = youtubeItemModel.Items[0].Statistics.FavoriteCount,
                     PublishDate = item.Snippet.PublishedAt,
                     Title = !string.IsNullOrEmpty(item.Snippet.Title) ? item.Snippet.Title : "",

@@ -29,6 +29,9 @@ namespace Geta.SocialChannels.Twitter
             _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
+        /// <summary>
+        /// Gets tweets for specified username
+        /// </summary>
         public GetTweetsResponse GetTweets(GetTweetsRequest getTweetsRequest)
         {
             var key = $"tweet_items_{getTweetsRequest.MaxCount}_{getTweetsRequest.UserName}";

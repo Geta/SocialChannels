@@ -3,6 +3,10 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Geta.SocialChannels.Twitter</RootNamespace>
+        <Title>Geta.SocialChannels.Twitter</Title>
+        <Authors>Geta Digital</Authors>
+        <Description>Helps to retrieve tweets from Twitter</Description>
+        <Company>Geta Digital</Company>
     </PropertyGroup>
 
     <ItemGroup>

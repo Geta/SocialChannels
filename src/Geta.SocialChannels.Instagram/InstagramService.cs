@@ -32,6 +32,9 @@ namespace Geta.SocialChannels.Instagram
             _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
+        /// <summary>
+        /// Gets Instagram media from associated instagram user
+        /// </summary>
         public List<Media> GetMedia()
         {
             if (string.IsNullOrEmpty(_token))
@@ -80,6 +83,9 @@ namespace Geta.SocialChannels.Instagram
             }
         }
 
+        /// <summary>
+        /// Get Instagram media by hashtag
+        /// </summary>
         public List<Media> GetMediaByHashTag(string tag)
         {
             if (string.IsNullOrEmpty(_token))

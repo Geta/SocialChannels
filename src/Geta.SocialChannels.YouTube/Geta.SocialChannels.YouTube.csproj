@@ -2,6 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <Title>Geta.SocialChannels.YouTube</Title>
+        <Authors>Geta Digital</Authors>
+        <Description>Retrieves YouTube feed from desired channelid</Description>
+        <Company>Geta Digital</Company>
     </PropertyGroup>
 
     <ItemGroup>
