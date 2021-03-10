@@ -5,15 +5,9 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels", "src\Geta.SocialChannels\Geta.SocialChannels.csproj", "{1E56DE5D-956C-4D8D-8A01-72867423377E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Facebook", "src\Geta.SocialChannels.Facebook\Geta.SocialChannels.Facebook.csproj", "{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.LinkedIn", "src\Geta.SocialChannels.LinkedIn\Geta.SocialChannels.LinkedIn.csproj", "{14F02947-E543-46DB-9FCA-DEE142411B73}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApplication", "TestWebApplication\TestWebApplication.csproj", "{AEDA851C-3EAC-4470-927C-A13EB4C5F725}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Instagram", "src\Geta.SocialChannels.Instagram\Geta.SocialChannels.Instagram.csproj", "{935D1382-9213-4D24-8FCA-5FC74FBC3359}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Facebook1", "src\Geta.SocialChannels.Facebook1\Geta.SocialChannels.Facebook1.csproj", "{96D991B5-46A8-4D58-8BC9-1397527428C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.YouTube", "src\Geta.SocialChannels.YouTube\Geta.SocialChannels.YouTube.csproj", "{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}"
 EndProject
@@ -29,14 +23,6 @@ Global
 		{1E56DE5D-956C-4D8D-8A01-72867423377E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E56DE5D-956C-4D8D-8A01-72867423377E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E56DE5D-956C-4D8D-8A01-72867423377E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEDA851C-3EAC-4470-927C-A13EB4C5F725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEDA851C-3EAC-4470-927C-A13EB4C5F725}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEDA851C-3EAC-4470-927C-A13EB4C5F725}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,10 +31,6 @@ Global
 		{935D1382-9213-4D24-8FCA-5FC74FBC3359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{935D1382-9213-4D24-8FCA-5FC74FBC3359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{935D1382-9213-4D24-8FCA-5FC74FBC3359}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96D991B5-46A8-4D58-8BC9-1397527428C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96D991B5-46A8-4D58-8BC9-1397527428C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96D991B5-46A8-4D58-8BC9-1397527428C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96D991B5-46A8-4D58-8BC9-1397527428C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU

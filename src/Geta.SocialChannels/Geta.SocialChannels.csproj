@@ -199,9 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base64Utils.cs" />
-    <Compile Include="Cache.cs" />
     <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="DynamicDataBase.cs" />
     <Compile Include="HttpUtils.cs" />
     <Compile Include="ICache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
