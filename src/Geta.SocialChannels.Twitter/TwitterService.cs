@@ -10,6 +10,8 @@ namespace Geta.SocialChannels.Twitter
         private readonly string _apiKey;
         private readonly string _secretKey;
         private readonly ICache _cache;
+        private bool _useCache;
+        private int _cacheDurationInMinutes = 10;
         private const string BaseUrl = "https://api.twitter.com/2/";
         private const string TwitterLink = "https://twitter.com/{0}/status/{1}";
 
@@ -18,37 +20,52 @@ namespace Geta.SocialChannels.Twitter
             _apiKey = apiKey;
             _secretKey = secretKey;
             _cache = cache;
+            _useCache = cache != null;
         }
         
         public void Config(bool useCache, int cacheDurationInMinutes)
         {
-            throw new System.NotImplementedException();
+            _useCache = useCache;
+            _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
         public GetTweetsResponse GetTweets(GetTweetsRequest getTweetsRequest)
         {
+            var key = $"tweet_items_{getTweetsRequest.MaxCount}_{getTweetsRequest.UserName}";
+
+            if (_useCache && _cache.Exists(key))
+            {
+                return _cache.Get<GetTweetsResponse>(key);
+            }
+            
             try
             {
                 var accessToken = GetAuthorizationToken();
-                var authorization =
-                    $"Bearer {accessToken}";
+                var authorization = $"Bearer {accessToken}";
                 var getUsernameResponse = GetUserByUsername(getTweetsRequest.UserName, authorization);
-                var fields = "tweet.fields=id,text,created_at"; 
                 var getTweetsJsonResult = 
-                    HttpUtils.Get($"{BaseUrl}users/{getUsernameResponse.User.Id}/tweets?{fields}&max_results={getTweetsRequest.MaxCount}",
+                    HttpUtils.Get($"{BaseUrl}users/{getUsernameResponse.User.Id}/tweets?tweet.fields=id,text,created_at&max_results={getTweetsRequest.MaxCount}",
                     authorization);
-                var response = JsonConvert.DeserializeObject<GetUserTweetsResponse>(getTweetsJsonResult);
-
-                return new GetTweetsResponse
+                var getUserTweetsResponse = JsonConvert.DeserializeObject<GetUserTweetsResponse>(getTweetsJsonResult);
+                var tweets = getUserTweetsResponse.Tweets.Select(s => new TweetItemModel
+                {
+                    Text = s.Text,
+                    CreatedDate = s.CreatedAt,
+                    Link = GetTweetLink(s.Id, getUsernameResponse.User.Username)
+                }).ToList();
+                
+                var response = new GetTweetsResponse
                 {
                     Success = true,
-                    Tweets = response.Tweets.Select(s => new TweetItemModel
-                    {
-                        Text = s.Text,
-                        CreatedDate = s.CreatedAt,
-                        Link = GetTweetLink(s.Id, getUsernameResponse.User.Username)
-                    }).ToList()
+                    Tweets = tweets
                 };
+
+                if (_useCache && tweets.Any())
+                {
+                    _cache.Add(key, response, new TimeSpan(0, _cacheDurationInMinutes, 0));
+                }
+
+                return response;
             }
             catch (Exception e)
             {
@@ -58,7 +75,6 @@ namespace Geta.SocialChannels.Twitter
                     ErrorMessage = $"Error: {e.Message} Stacktrace: {e.StackTrace}"
                 };
             }
-            
         }
 
         private string GetAuthorizationToken()

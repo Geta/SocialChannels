@@ -11,5 +11,8 @@
     <description>$description$</description>
     <tags>Geta Foundation Social Channels YouTube</tags>
     <repository type="git" url="URL" branch="BRANCH_NAME" commit="COMMIT" />
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="[9.0.1, 13.0)" />
+    </dependencies>
   </metadata>
 </package>

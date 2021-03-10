@@ -17,21 +17,22 @@ namespace Geta.SocialChannels.YouTube
 
         private readonly string _youtubeKey;
 
-        private bool _useCache = false;
+        private bool _useCache;
         private int _cacheDurationInMinutes = 10;
 
         private readonly ICache _cache;
 
         public YoutubeService(string youtubeKey, ICache cache)
         {
-            this._cache = cache;
-            this._youtubeKey = youtubeKey;
+            _cache = cache;
+            _youtubeKey = youtubeKey;
+            _useCache = cache != null;
         }
 
         public void Config(bool useCache, int cacheDurationInMinutes)
         {
-            this._useCache = useCache;
-            this._cacheDurationInMinutes = cacheDurationInMinutes;
+            _useCache = useCache;
+            _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
         public GetYoutubeFeedResponse GetYoutubeFeed(GetYoutubeFeedRequest getYoutubeFeedRequest)

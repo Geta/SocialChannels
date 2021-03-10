@@ -15,7 +15,7 @@ namespace Geta.SocialChannels.Instagram
         private readonly string _token;
         private readonly string _accountId;
         
-        private bool _useCache = false;
+        private bool _useCache;
         private int _cacheDurationInMinutes = 10;
 
         public InstagramService(string token, string accountId, ICache cache = null)
@@ -23,6 +23,7 @@ namespace Geta.SocialChannels.Instagram
             _cache = cache;
             _token = token;
             _accountId = accountId;
+            _useCache = cache != null;
         }
         
         public void Config(bool useCache, int cacheDurationInMinutes)
