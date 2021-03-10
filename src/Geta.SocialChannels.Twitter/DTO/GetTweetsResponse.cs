@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Geta.SocialChannels.Twitter
+namespace Geta.SocialChannels.Twitter.DTO
 {
     public class GetTweetsResponse
     {

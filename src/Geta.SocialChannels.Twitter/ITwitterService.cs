@@ -1,4 +1,6 @@
-﻿namespace Geta.SocialChannels.Twitter
+﻿using Geta.SocialChannels.Twitter.DTO;
+
+namespace Geta.SocialChannels.Twitter
 {
     public interface ITwitterService
     {

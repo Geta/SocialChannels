@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Faceboo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.LinkedIn", "src\Geta.SocialChannels.LinkedIn\Geta.SocialChannels.LinkedIn.csproj", "{14F02947-E543-46DB-9FCA-DEE142411B73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Twitter", "src\Geta.SocialChannels.Twitter\Geta.SocialChannels.Twitter.csproj", "{BA71EA63-833D-4C65-A950-BAF82627202F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApplication", "TestWebApplication\TestWebApplication.csproj", "{AEDA851C-3EAC-4470-927C-A13EB4C5F725}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Instagram", "src\Geta.SocialChannels.Instagram\Geta.SocialChannels.Instagram.csproj", "{935D1382-9213-4D24-8FCA-5FC74FBC3359}"
@@ -18,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Facebook1", "src\Geta.SocialChannels.Facebook1\Geta.SocialChannels.Facebook1.csproj", "{96D991B5-46A8-4D58-8BC9-1397527428C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.YouTube", "src\Geta.SocialChannels.YouTube\Geta.SocialChannels.YouTube.csproj", "{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Twitter", "src\Geta.SocialChannels.Twitter\Geta.SocialChannels.Twitter.csproj", "{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{14F02947-E543-46DB-9FCA-DEE142411B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14F02947-E543-46DB-9FCA-DEE142411B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14F02947-E543-46DB-9FCA-DEE142411B73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEDA851C-3EAC-4470-927C-A13EB4C5F725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEDA851C-3EAC-4470-927C-A13EB4C5F725}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEDA851C-3EAC-4470-927C-A13EB4C5F725}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

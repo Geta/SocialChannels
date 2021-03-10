@@ -198,6 +198,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base64Utils.cs" />
     <Compile Include="Cache.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DynamicDataBase.cs" />

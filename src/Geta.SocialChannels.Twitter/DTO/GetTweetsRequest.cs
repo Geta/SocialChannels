@@ -1,4 +1,4 @@
-﻿namespace Geta.SocialChannels.Twitter
+﻿namespace Geta.SocialChannels.Twitter.DTO
 {
     public class GetTweetsRequest
     {
