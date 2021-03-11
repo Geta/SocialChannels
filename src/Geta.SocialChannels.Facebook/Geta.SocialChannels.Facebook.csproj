@@ -5,9 +5,10 @@
         <Title>Geta.SocialChannels.Facebook</Title>
         <Authors>Geta Digital</Authors>
         <Company>Geta Digital</Company>
-        <AssemblyVersion>1.0.0</AssemblyVersion>
-        <FileVersion>1.0.0</FileVersion>
+        <AssemblyVersion>2.0.0</AssemblyVersion>
+        <FileVersion>2.0.0</FileVersion>
         <Description>Retrieves feed and account information from Facebook </Description>
+        <PackageVersion>2.0.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
