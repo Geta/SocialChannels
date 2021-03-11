@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <authors>$author$</authors>
+        <owners>$author$</owners>
+        <projectUrl>https://github.com/Geta/SocialChannels</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
+        <description>$description$</description>
+        <tags>Geta Foundation Social Channels Facebook</tags>
+        <repository type="git" url="URL" branch="BRANCH_NAME" commit="COMMIT" />
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="[9.0.1, 13.0)" />
+        </dependencies>
+    </metadata>
+</package>

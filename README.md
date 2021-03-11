@@ -38,6 +38,11 @@ To install Instagram
 Install-Package Geta.SocialChannels.Instagram
 ```
 
+To install Facebook
+```
+Install-Package Geta.SocialChannels.Facebook
+```
+
 ## Twitter
 
 Setting App Consumer Key and App Consumer Secret:
@@ -78,5 +83,27 @@ var postsBySelf = instagramService.GetMedia();
 var postsByTag = instagramService.GetMediaByHashTag("geta");
 ```
 
+## Facebook
+Gets Facebook feed by user name or account information by username. 
+To retrieve the access token, see the documentation from Facebook: [https://developers.facebook.com/docs/facebook-login/access-tokens/](https://developers.facebook.com/docs/facebook-login/access-tokens/).
+Make sure to use [Long-Lived Page Access Token](https://developers.facebook.com/docs/facebook-login/access-tokens/refreshing/#get-a-long-lived-page-access-token)
+
+If you want to access other public pages, which are not associated with your App and token you need have following permission:
+[Page Public Content Access](https://developers.facebook.com/docs/apps/features-reference/page-public-content-access)
+
+####Useful tools:
+[Graph API Explorer](https://developers.facebook.com/tools/explorer/)
+
+[Access token debugger](https://developers.facebook.com/tools/debug/accesstoken/)
+
+### Examples
+```csharp
+var facebookService = new FacebookService("accessToken", new Cache());
+var facebookFeed = facebookService.GetFacebookFeed(new FacebookFeedRequest
+{
+ UserName = "getatesting"
+});
+var accountInformation = facebookService.GetInformation("getatesting");```
+```
 ## Changelog
 [Changelog](CHANGELOG.md)
