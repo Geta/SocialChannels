@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Twitter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels", "src\Geta.SocialChannels\Geta.SocialChannels.csproj", "{7D3C16A2-1039-4F4A-9682-3D9023F8B166}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Facebook", "src\Geta.SocialChannels.Facebook\Geta.SocialChannels.Facebook.csproj", "{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7D3C16A2-1039-4F4A-9682-3D9023F8B166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D3C16A2-1039-4F4A-9682-3D9023F8B166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D3C16A2-1039-4F4A-9682-3D9023F8B166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
