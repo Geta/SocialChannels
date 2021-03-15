@@ -79,7 +79,7 @@ namespace Geta.SocialChannels.Instagram
             }
             catch (Exception ex)
             {
-                return null;
+                throw new InstagramServiceException(ex.Message, ex);
             }
         }
 

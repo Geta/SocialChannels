@@ -23,7 +23,7 @@ namespace Geta.SocialChannels.YouTube
 
         private readonly ICache _cache;
 
-        public YoutubeService(string youtubeKey, ICache cache)
+        public YoutubeService(string youtubeKey, ICache cache = null)
         {
             _cache = cache;
             _youtubeKey = youtubeKey;
