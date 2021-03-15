@@ -46,7 +46,8 @@ Install-Package Geta.SocialChannels.Facebook
 ## Twitter
 
 Setting App Consumer Key and App Consumer Secret:
-Step 1. Go to your app (https://apps.twitter.com/)
+Step 1. Go to your developer portal (https://developer.twitter.com/)
+Step 2. Create new app
 Step 2. Click on Keys and Access Tokens tab
 
 More info: https://developer.twitter.com/en/docs/twitter-api
@@ -73,9 +74,15 @@ var feed = youTubeService.GetYoutubeFeed(new GetYoutubeFeedRequest{ ChannelId = 
 
 ## Instagram
 Gets the instagram posts of the business account associated with the token, or from a hashtag.
-To retrieve the access token, see the documentation from Instagram: [https://developers.facebook.com/docs/facebook-login/access-tokens/](https://developers.facebook.com/docs/facebook-login/access-tokens/). 
-Make sure to use [Long-Lived Page Access Token](https://developers.facebook.com/docs/facebook-login/access-tokens/refreshing/#get-a-long-lived-page-access-token)
+1. Create new app: https://developers.facebook.com/docs/development/create-an-app
+2. Add Instagram Graph API: https://developers.facebook.com/docs/instagram-api/getting-started
+3. Go to Graph Api explorer and retrieve instagram_business_account associated for your page (use page access token) https://developers.facebook.com/docs/instagram-api/reference/page/
+4. Convert token to [Long-Lived Page Access Token](https://developers.facebook.com/docs/facebook-login/access-tokens/refreshing/#get-a-long-lived-page-access-token)
 
+To retrieve the access token, see the documentation from Instagram: [https://developers.facebook.com/docs/facebook-login/access-tokens/](https://developers.facebook.com/docs/facebook-login/access-tokens/).
+
+For production use probably your app needs to be approved by Facebook.
+NOTE: make sure that your instagram profile is a business account and is connected to Facebook page
 ### Examples
 ```csharp
 var instagramService = new InstagramService("instagramAccessToken", "InstagramBusinessAccountId", new Cache());
@@ -85,9 +92,13 @@ var postsByTag = instagramService.GetMediaByHashTag("geta");
 
 ## Facebook
 Gets Facebook feed by user name or account information by username. 
-To retrieve the access token, see the documentation from Facebook: [https://developers.facebook.com/docs/facebook-login/access-tokens/](https://developers.facebook.com/docs/facebook-login/access-tokens/).
-Make sure to use [Long-Lived Page Access Token](https://developers.facebook.com/docs/facebook-login/access-tokens/refreshing/#get-a-long-lived-page-access-token)
+1. Create new app: https://developers.facebook.com/docs/development/create-an-app
+2. Go to Graph Api explorer and retrieve access token for your page
+3. Convert token to [Long-Lived Page Access Token](https://developers.facebook.com/docs/facebook-login/access-tokens/refreshing/#get-a-long-lived-page-access-token)
 
+To retrieve the access token, see the documentation from Facebook: [https://developers.facebook.com/docs/facebook-login/access-tokens/](https://developers.facebook.com/docs/facebook-login/access-tokens/).
+
+For production use probably your app needs to be approved by Facebook.
 If you want to access other public pages, which are not associated with your App and token you need have following permission:
 [Page Public Content Access](https://developers.facebook.com/docs/apps/features-reference/page-public-content-access)
 
