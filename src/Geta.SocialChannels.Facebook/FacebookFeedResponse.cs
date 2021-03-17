@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Geta.SocialChannels.Facebook
 {
@@ -9,26 +8,39 @@ namespace Geta.SocialChannels.Facebook
         public List<FacebookPostItem> Data;
     }
 
-    public class FacbookAuthorInformation
+    public class FacebookAccountInformation
     {
         public string Id { get; set; }
-
-        public string Name { get; set; }
-
         public string Url => $"https://www.facebook.com/{Id}";
+        public string Description { get; set; }
+        public string Phone { get; set; }
+        public string Website { get; set; }
+        public Location Location { get; set; }
+        public string Username { get; set; }
+    }
+
+    public class Location
+    {
+        public string City { get; set; }
+        public string Country { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Street { get; set; }
+        public string Zip { get; set; }
     }
 
     public class FacebookPostItem
     {
         public string Id { get; set; }
-
         public string Message { get; set; }
+        public string CreatedTime { get; set; }
+        public List<FacebookAttachment> Attachments { get; set; }
+    }
 
-        [JsonProperty(PropertyName = "Created_Time")]
-        public DateTime CreatedTime { get; set; }
-
-        public string CreatedTimeSince => CreatedTime.ToTimeSinceString();
-
-        public FacbookAuthorInformation From { get; set; }
+    public class FacebookAttachment
+    {
+        public string MediaType { get; set; }
+        public string Description { get; set; }
+        public string Url { get; set; }
     }
 }

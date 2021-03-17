@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels", "src\Geta.SocialChannels\Geta.SocialChannels.csproj", "{1E56DE5D-956C-4D8D-8A01-72867423377E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Instagram", "src\Geta.SocialChannels.Instagram\Geta.SocialChannels.Instagram.csproj", "{935D1382-9213-4D24-8FCA-5FC74FBC3359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Facebook", "src\Geta.SocialChannels.Facebook\Geta.SocialChannels.Facebook.csproj", "{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.YouTube", "src\Geta.SocialChannels.YouTube\Geta.SocialChannels.YouTube.csproj", "{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Instagram", "src\Geta.SocialChannels.Instagram\Geta.SocialChannels.Instagram.csproj", "{47ACA00D-FB9D-436C-9075-64544B813A00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Twitter", "src\Geta.SocialChannels.Twitter\Geta.SocialChannels.Twitter.csproj", "{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.LinkedIn", "src\Geta.SocialChannels.LinkedIn\Geta.SocialChannels.LinkedIn.csproj", "{14F02947-E543-46DB-9FCA-DEE142411B73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels", "src\Geta.SocialChannels\Geta.SocialChannels.csproj", "{7D3C16A2-1039-4F4A-9682-3D9023F8B166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Twitter", "src\Geta.SocialChannels.Twitter\Geta.SocialChannels.Twitter.csproj", "{BA71EA63-833D-4C65-A950-BAF82627202F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Facebook", "src\Geta.SocialChannels.Facebook\Geta.SocialChannels.Facebook.csproj", "{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.YouTube", "src\Geta.SocialChannels.YouTube\Geta.SocialChannels.YouTube.csproj", "{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.SocialChannels.Tests", "test\Geta.SocialChannels.Tests\Geta.SocialChannels.Tests.csproj", "{F1295FDD-4059-45DC-BA86-23DF69806352}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,30 +21,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E56DE5D-956C-4D8D-8A01-72867423377E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E56DE5D-956C-4D8D-8A01-72867423377E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E56DE5D-956C-4D8D-8A01-72867423377E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E56DE5D-956C-4D8D-8A01-72867423377E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF600301-A2E5-4C22-8A67-5BFBA8CC0DD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47ACA00D-FB9D-436C-9075-64544B813A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47ACA00D-FB9D-436C-9075-64544B813A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47ACA00D-FB9D-436C-9075-64544B813A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47ACA00D-FB9D-436C-9075-64544B813A00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14F02947-E543-46DB-9FCA-DEE142411B73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA71EA63-833D-4C65-A950-BAF82627202F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4781159E-0FF5-4BF1-A041-8B3E3A53FDFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{935D1382-9213-4D24-8FCA-5FC74FBC3359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{935D1382-9213-4D24-8FCA-5FC74FBC3359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{935D1382-9213-4D24-8FCA-5FC74FBC3359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{935D1382-9213-4D24-8FCA-5FC74FBC3359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7FB0911-3534-4730-86F7-E5BE86BA7FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55FCA46D-A332-4F77-896C-A5A7CBB5F3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D3C16A2-1039-4F4A-9682-3D9023F8B166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D3C16A2-1039-4F4A-9682-3D9023F8B166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D3C16A2-1039-4F4A-9682-3D9023F8B166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D3C16A2-1039-4F4A-9682-3D9023F8B166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD0FFD6F-6780-40D8-ADD8-BC9FA9F64F28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1295FDD-4059-45DC-BA86-23DF69806352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1295FDD-4059-45DC-BA86-23DF69806352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1295FDD-4059-45DC-BA86-23DF69806352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1295FDD-4059-45DC-BA86-23DF69806352}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

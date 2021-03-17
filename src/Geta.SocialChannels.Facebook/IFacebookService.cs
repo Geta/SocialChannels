@@ -3,7 +3,7 @@
     public interface IFacebookService
     {
         void Config(bool useCache, int cacheDurationInMinutes);
-        FacbookAuthorInformation GetInformation(string userName);
+        FacebookAccountInformation GetInformation(string userName);
         FacebookFeedResponse GetFacebookFeed(FacebookFeedRequest facebookFeedRequest);
     }
 }

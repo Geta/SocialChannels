@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.13.1" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Geta.SocialChannels.Facebook\Geta.SocialChannels.Facebook.csproj" />
+      <ProjectReference Include="..\..\src\Geta.SocialChannels.Instagram\Geta.SocialChannels.Instagram.csproj" />
+      <ProjectReference Include="..\..\src\Geta.SocialChannels.Twitter\Geta.SocialChannels.Twitter.csproj" />
+      <ProjectReference Include="..\..\src\Geta.SocialChannels.YouTube\Geta.SocialChannels.YouTube.csproj" />
+    </ItemGroup>
+
+</Project>

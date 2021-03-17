@@ -1,34 +1,29 @@
-﻿using EPiServer.Logging.Compatibility;
-using EPiServer.ServiceLocation;
-using Geta.SocialChannels.Instagram.Abstract;
+﻿using Geta.SocialChannels.Instagram.Abstract;
 using Geta.SocialChannels.Instagram.DTO;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using Newtonsoft.Json;
 using Media = Geta.SocialChannels.Instagram.Entities.Media;
 
 namespace Geta.SocialChannels.Instagram
 {
-    [ServiceConfiguration(typeof(IInstagramService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class InstagramService: IInstagramService
     {
-        private const string BaseUrl = "https://graph.facebook.com/v5.0/";
-
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(InstagramService));
+        private const string BaseUrl = "https://graph.facebook.com/v10.0/";
         private readonly ICache _cache;
         private readonly string _token;
         private readonly string _accountId;
         
-        private bool _useCache = true;
+        private bool _useCache;
         private int _cacheDurationInMinutes = 10;
 
-        public InstagramService(ICache cache, string token, string accountId)
+        public InstagramService(string token, string accountId, ICache cache = null)
         {
             _cache = cache;
             _token = token;
             _accountId = accountId;
+            _useCache = cache != null;
         }
         
         public void Config(bool useCache, int cacheDurationInMinutes)
@@ -37,6 +32,9 @@ namespace Geta.SocialChannels.Instagram
             _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
+        /// <summary>
+        /// Gets Instagram media from associated instagram user
+        /// </summary>
         public List<Media> GetMedia()
         {
             if (string.IsNullOrEmpty(_token))
@@ -52,21 +50,24 @@ namespace Geta.SocialChannels.Instagram
 
             try
             {
-                var instagramResults = DoMediaSearch();
+                var mediaList = DoMediaSearch();
                 var mediaModels = new List<Media>();
-                foreach (var mediaData in instagramResults.Media.Data)
+                if (mediaList != null && mediaList.Any())
                 {
-                    var media = new Media
+                    foreach (var mediaData in mediaList)
                     {
-                        Id = mediaData.Id,
-                        LikeCount = mediaData.LikeCount,
-                        CommentsCount = mediaData.CommentsCount,
-                        MediaUrl = mediaData.MediaUrl,
-                        Permalink = mediaData.Permalink,
-                        Timestamp = mediaData.Timestamp
-                    };
+                        var media = new Media
+                        {
+                            Id = mediaData.Id,
+                            LikeCount = mediaData.LikeCount,
+                            CommentsCount = mediaData.CommentsCount,
+                            MediaUrl = mediaData.MediaUrl,
+                            Permalink = mediaData.Permalink,
+                            Timestamp = mediaData.Timestamp
+                        };
 
-                    mediaModels.Add(media);
+                        mediaModels.Add(media);
+                    }
                 }
 
                 if (_useCache)
@@ -78,11 +79,13 @@ namespace Geta.SocialChannels.Instagram
             }
             catch (Exception ex)
             {
-                Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-                return null;
+                throw new InstagramServiceException(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Get Instagram media by hashtag
+        /// </summary>
         public List<Media> GetMediaByHashTag(string tag)
         {
             if (string.IsNullOrEmpty(_token))
@@ -119,8 +122,7 @@ namespace Geta.SocialChannels.Instagram
             }
             catch (Exception ex)
             {
-                Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-                return null;
+                throw new InstagramServiceException(ex.Message, ex);
             }
         }
 
@@ -132,14 +134,14 @@ namespace Geta.SocialChannels.Instagram
         /// Convert to DTOs and return.
         /// </summary>
         /// <returns></returns>
-        private InstagramResult DoMediaSearch()
+        private List<MediaData> DoMediaSearch()
         {
             var mediaFields =
-                $"{_accountId}?fields=media%7Bmedia_url%2Cmedia_type%2Ccomments_count%2Clike_count%2Ctimestamp%2Cpermalink%2Ccaption%7D";
-            var mediaSearchUrl = BaseUrl + mediaFields + "&access_token=" + _token;
+                "/media?fields=id,comments_count,like_count,caption,timestamp,media_type,comments,media_url,permalink";
+            var mediaSearchUrl = BaseUrl + _accountId + mediaFields + "&access_token=" + _token;
             var jsonResult = HttpUtils.Get(mediaSearchUrl);
-            var instagramResult = JsonConvert.DeserializeObject<InstagramResult>(jsonResult);
-            return instagramResult?.Media != null ? instagramResult : null;
+            var media = JsonConvert.DeserializeObject<DTO.Media>(jsonResult);
+            return media?.Data;
         }
 
         /// <summary>
@@ -152,8 +154,9 @@ namespace Geta.SocialChannels.Instagram
             var result = new List<MediaData>();
             foreach (var hashtagId in hashtagIds)
             {
+                var recentMediaFields = "fields=id,media_type,media_url,permalink,comments_count,like_count,timestamp";
                 var mediaSearchUrl = BaseUrl +
-                                     $"{hashtagId.Id}/recent_media?user_id={_accountId}&fields=id%2Cmedia_type%2Ccomments_count%2Clike_count%2Cmedia_url&access_token=" +
+                                     $"{hashtagId.Id}/recent_media?user_id={_accountId}&{recentMediaFields}&access_token=" +
                                      _token;
 
                 var jsonResult = HttpUtils.Get(mediaSearchUrl);

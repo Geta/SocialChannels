@@ -27,7 +27,5 @@ namespace Geta.SocialChannels.YouTube
         public DateTime PublishDate { get; set; }
 
         public string VideoUrl { get; set; }
-
-        public string CreatedTimeSince => PublishDate.ToTimeSinceString();
     }
 }

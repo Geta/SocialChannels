@@ -1,76 +1,82 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
-using EPiServer.Logging.Compatibility;
-using EPiServer.ServiceLocation;
+using Geta.SocialChannels.Facebook.DTO;
 using Newtonsoft.Json;
 
 namespace Geta.SocialChannels.Facebook
 {
-    [ServiceConfiguration(typeof(IFacebookService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class FacebookService : IFacebookService
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(FacebookService));
-        
-        private readonly ICache _cache;
-        private readonly string _appId;
-        private readonly string _appSecret;
+        private const string BaseUrl = "https://graph.facebook.com/v10.0/";
         private readonly string _token;
+        private readonly ICache _cache;
         
-        private const string FacebookFeedFields = "&fields = caption, id, created_time, message,from, name, type, is_published, shares";
-        private string FacebookTokenUrl => $"https://graph.facebook.com/oauth/access_token?type=client_cred&client_id={_appId}&client_secret={_appSecret}";
-        private string AuthenticationHeader => $"Bearer {_token}";
-        private bool _useCache = true;
+        private bool _useCache;
         private int _cacheDurationInMinutes = 10;
 
-        public FacebookService(ICache cache, string appId, string appSecret)
+        public FacebookService(string token, ICache cache = null)
         {
+            _token = token;
             _cache = cache;
-            _appId = appId;
-            _appSecret = appSecret;
-            
-            _token = GetAppToken();
+            _useCache = cache != null;
         }
-
+        
         public void Config(bool useCache, int cacheDurationInMinutes)
         {
             _useCache = useCache;
             _cacheDurationInMinutes = cacheDurationInMinutes;
         }
 
-        public FacbookAuthorInformation GetInformation(string userName)
+        /// <summary>
+        /// Gets account information for specified username.
+        /// </summary>
+        public FacebookAccountInformation GetInformation(string userName)
         {
             if (string.IsNullOrEmpty(_token) || string.IsNullOrEmpty(userName))
             {
                 return null;
             }
-
+            
             var facebookInfoCacheKey = $"facebook_about_{userName}";
-            if (_cache.Exists(facebookInfoCacheKey) && _useCache)
+            if (_useCache && _cache.Exists(facebookInfoCacheKey))
             {
-                return _cache.Get<FacbookAuthorInformation>(facebookInfoCacheKey);
+                return _cache.Get<FacebookAccountInformation>(facebookInfoCacheKey);
             }
 
-            var facebookInfoUrl = $"https://graph.facebook.com/v2.5/{userName}";
             try
             {
-                var text = HttpUtils.Get(facebookInfoUrl, AuthenticationHeader);
-                var data = JsonConvert.DeserializeObject<FacbookAuthorInformation>(text);
+                var fields = "about,description,id,members,location,phone,website,username";
+                var url = $"{BaseUrl}{userName}?fields={fields}&access_token={_token}";
+                var jsonResult = HttpUtils.Get(url);
+                var accountInformationResponse = JsonConvert.DeserializeObject<AccountInformationDto>(jsonResult);
 
-                if (_useCache && data != null)
+                return new FacebookAccountInformation
                 {
-                    _cache.Add(facebookInfoCacheKey, data, new TimeSpan(0, _cacheDurationInMinutes, 0));
-                }
-
-                return data;
+                    Id = accountInformationResponse.Id,
+                    Username = accountInformationResponse.Username,
+                    Description = accountInformationResponse.Description,
+                    Phone = accountInformationResponse.Phone,
+                    Website = accountInformationResponse.Website,
+                    Location = accountInformationResponse.Location != null ? new Location
+                    {
+                        City = accountInformationResponse.Location.City,
+                        Country = accountInformationResponse.Location.Country,
+                        Latitude = accountInformationResponse.Location.Latitude,
+                        Longitude = accountInformationResponse.Location.Longitude,
+                        Street = accountInformationResponse.Location.Street,
+                        Zip = accountInformationResponse.Location.Zip
+                    } : null
+                };
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-                return null;
+                throw new FacebookServiceException(e.Message, e);
             }
         }
 
+        /// <summary>
+        /// Gets Facebook feed by username.
+        /// </summary>
         public FacebookFeedResponse GetFacebookFeed(FacebookFeedRequest facebookFeedRequest)
         {
             if (string.IsNullOrEmpty(_token) || string.IsNullOrEmpty(facebookFeedRequest.UserName))
@@ -79,73 +85,38 @@ namespace Geta.SocialChannels.Facebook
             }
 
             var facebookFeedCacheKey = $"facebook_feed_{facebookFeedRequest.UserName}_{facebookFeedRequest.MaxCount}";
-            if (_cache.Exists(facebookFeedCacheKey) && _useCache)
+            if (_useCache && _cache.Exists(facebookFeedCacheKey))
             {
                 return _cache.Get<FacebookFeedResponse>(facebookFeedCacheKey);
             }
 
-            var facebookFeedUrl = $"https://graph.facebook.com/v2.5/{facebookFeedRequest.UserName}/posts?limit={facebookFeedRequest.MaxCount}{FacebookFeedFields}";
             try
             {
-                var posts = HttpUtils.Get(facebookFeedUrl, AuthenticationHeader);
-                var data = JsonConvert.DeserializeObject<FacebookFeedResponse>(posts);
+                var fields = "message,created_time,attachments{url,description,media_type}";
+                var url = $"{BaseUrl}{facebookFeedRequest.UserName}/feed?fields={fields}&access_token={_token}";
+                var jsonResult = HttpUtils.Get(url);
+                var feedDto = JsonConvert.DeserializeObject<FeedDto>(jsonResult);
 
-                if (_useCache && data != null)
+                return new FacebookFeedResponse
                 {
-                    _cache.Add(facebookFeedCacheKey, data, new TimeSpan(0, _cacheDurationInMinutes, 0));
-                }
-
-                return data;
+                    Data = feedDto?.Data.Select(s => new FacebookPostItem
+                    {
+                        Id = s.Id,
+                        Message = s.Message,
+                        CreatedTime = s.CreatedTime,
+                        Attachments = s.Data?.Attachments.Select(a => new FacebookAttachment
+                        {
+                            Description = a.Description,
+                            MediaType = a.MediaType,
+                            Url = a.Url
+                        }).ToList()
+                    }).ToList()
+                };
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-                return null;
+                throw new FacebookServiceException(e.Message, e);
             }
-        }
-
-        private string GetAppToken()
-        {
-            if (string.IsNullOrEmpty(_appId) || string.IsNullOrEmpty(_appSecret))
-            {
-                return string.Empty;
-            }
-
-            var facebookTokenCacheKey = $"facebook_token_{_appId}";
-            if (_cache.Exists(facebookTokenCacheKey) && _useCache)
-            {
-                return _cache.Get<string>(facebookTokenCacheKey);
-            }
-
-            var token = GetAppTokenFromFacebook();
-            if (_useCache && !string.IsNullOrEmpty(token))
-            {
-                _cache.Add(token, facebookTokenCacheKey, new TimeSpan(0, _cacheDurationInMinutes, 0));
-            }
-
-            return token;
-        }
-
-        private string GetAppTokenFromFacebook()
-        {
-            string token;
-            try
-            {
-                token = HttpUtils.Get(FacebookTokenUrl);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(MethodBase.GetCurrentMethod().Name, ex);
-                return string.Empty;
-            }
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                var tokenObject = JsonConvert.DeserializeObject<dynamic>(token);
-                token = tokenObject["access_token"].ToString();
-            }
-
-            return token;
         }
     }
 }
