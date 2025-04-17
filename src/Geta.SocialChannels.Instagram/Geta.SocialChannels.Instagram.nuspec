@@ -12,7 +12,7 @@
     <tags>Geta Foundation Social Channels Instagram</tags>
     <repository type="git" url="URL" branch="BRANCH_NAME" commit="COMMIT" />
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="[9.0.1, 13.0)" />
+      <dependency id="Newtonsoft.Json" version="[9.0.1, 14.0)" />
       <dependency id="Geta.SocialChannels" version="[2.0.0, 3.0)" />
     </dependencies>
   </metadata>
