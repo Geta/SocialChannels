@@ -6,9 +6,9 @@
         <Authors>Geta Digital</Authors>
         <Description>Common classes and logic for Geta.SocialChannels packages</Description>
         <Title>Geta.SocialChannels</Title>
-        <PackageVersion>2.0.0</PackageVersion>
-        <AssemblyVersion>2.0.0</AssemblyVersion>
-        <FileVersion>2.0.0</FileVersion>
+        <PackageVersion>2.0.1</PackageVersion>
+        <AssemblyVersion>2.0.1</AssemblyVersion>
+        <FileVersion>2.0.1</FileVersion>
     </PropertyGroup>
 
 </Project>
