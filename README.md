@@ -1,7 +1,7 @@
 # Geta Social Channels libraries
 
 * Master<br>
-![](http://tc.geta.no/app/rest/builds/buildType:(id:GetaPackages_GetaSocialChannels_00ci),branch:master/statusIcon)
+![](http://teamcity.getatools.ai/app/rest/builds/buildType:(id:GetaPackages_GetaSocialChannels_00ci),branch:master/statusIcon)
 ## Description
 This project contains 4 different packages for 3 different social media channels.
 
